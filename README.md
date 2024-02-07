@@ -1,5 +1,11 @@
 # Video Summarization
 
+## Quick setup
+In case, If you want to quickly setup and test the repository,
+```
+sh run_summarizer.sh
+```
+It is a shell script that downloads the SumMe dataset and preprocess it. And then, train a SUM-GAN model on it. But you might need to install the requirements. If not follow the regular installation
 ## Installation
 First, please clone this repository.  
 ```
