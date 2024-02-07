@@ -8,7 +8,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from summarizer.models import Trainer
+from video_summarizer.models import Trainer
 
 """
 Unsupervised Video Summarization with Adversarial LSTM Networks
@@ -149,10 +149,10 @@ class VAE(nn.Module):
         x_hat = self.d_lstm(x.size(0), h, c)
         return x_hat, (h_mu, h_logvar)
 
-class Summarizer(nn.Module):
+class video_summarizer(nn.Module):
     def __init__(self, input_size=1024, sLSTM_hidden_size=1024, sLSTM_num_layers=2,
                      edLSTM_hidden_size=2048, edLSTM_num_layers=2):
-        """Summarizer: Selector (sLSTM) + VAE (eLSTM/dLSTM).
+        """video_summarizer: Selector (sLSTM) + VAE (eLSTM/dLSTM).
         Args
           input_size: size of the frame feature descriptor
           sLSTM_hidden_size: hidden size of sLSTM
@@ -160,7 +160,7 @@ class Summarizer(nn.Module):
           edLSTM_hidden_size: hidden size of eLSTM and dLSTM
           edLSTM_num_layers: number of layers of eLSTM and dLSTM
         """
-        super(Summarizer, self).__init__()
+        super(video_summarizer, self).__init__()
         self.s_lstm = sLSTM(input_size=input_size, hidden_size=sLSTM_hidden_size, num_layers=sLSTM_num_layers)
         self.vae = VAE(input_size=input_size, hidden_size=edLSTM_hidden_size, num_layers=edLSTM_num_layers)
 
@@ -240,9 +240,9 @@ class SumGAN(nn.Module):
     def __init__(self, input_size=1024, sLSTM_hidden_size=1024, sLSTM_num_layers=2, 
                         edLSTM_hidden_size=2048, edLSTM_num_layers=2,
                         cLSTM_hidden_size=1024, cLSTM_num_layers=2):
-        """SumGAN: Summarizer + GAN"""
+        """SumGAN: video_summarizer + GAN"""
         super(SumGAN, self).__init__()
-        self.summarizer = Summarizer(
+        self.video_summarizer = video_summarizer(
             input_size=input_size,
             sLSTM_hidden_size=sLSTM_hidden_size, sLSTM_num_layers=sLSTM_num_layers,
             edLSTM_hidden_size=edLSTM_hidden_size, edLSTM_num_layers=edLSTM_num_layers)
@@ -257,7 +257,7 @@ class SumGAN(nn.Module):
         Output
           scores: (seq_len, batch_size, 1)
         """
-        return self.summarizer.s_lstm(x)
+        return self.video_summarizer.s_lstm(x)
 
 
 class SumGANTrainer(Trainer):
@@ -282,7 +282,7 @@ class SumGANTrainer(Trainer):
             cLSTM_hidden_size=self.cLSTM_hidden_size, cLSTM_num_layers=self.cLSTM_num_layers)
 
         # Parameters
-        self.log.debug("Generator params: {}".format(sum([_.numel() for _ in model.summarizer.parameters()])))
+        self.log.debug("Generator params: {}".format(sum([_.numel() for _ in model.video_summarizer.parameters()])))
         self.log.debug("Discriminator params: {}".format(sum([_.numel() for _ in model.gan.parameters()])))
         
         return model
@@ -323,7 +323,7 @@ class SumGANTrainer(Trainer):
         """Pretrain VAE before learning the GAN, as recommended in paper"""
         train_keys, _ = self._get_train_test_keys(fold)
         vae_optimizer = torch.optim.Adam(
-            self.model.summarizer.vae.parameters(),
+            self.model.video_summarizer.vae.parameters(),
             lr=self.hps.lr,
             weight_decay=self.hps.weight_decay)
 
@@ -340,7 +340,7 @@ class SumGANTrainer(Trainer):
                     x = x.cuda()
                 
                 # Pretrain the lstm VAE
-                x_hat, (mu, logvar) = self.model.summarizer.vae(x)
+                x_hat, (mu, logvar) = self.model.video_summarizer.vae(x)
                 loss_vae = self.loss_vae(x, x_hat, mu, logvar)
                 vae_optimizer.zero_grad()
                 loss_vae.backward()
@@ -367,12 +367,12 @@ class SumGANTrainer(Trainer):
         
         # Optimization
         self.s_e_optimizer = torch.optim.Adam(
-            list(self.model.summarizer.s_lstm.parameters())
-            + list(self.model.summarizer.vae.e_lstm.parameters()),
+            list(self.model.video_summarizer.s_lstm.parameters())
+            + list(self.model.video_summarizer.vae.e_lstm.parameters()),
             lr=self.hps.lr,
             weight_decay=self.hps.weight_decay)
         self.d_optimizer = torch.optim.Adam(
-            self.model.summarizer.vae.d_lstm.parameters(),
+            self.model.video_summarizer.vae.d_lstm.parameters(),
             lr=self.hps.lr,
             weight_decay=self.hps.weight_decay)
         self.c_optimizer = torch.optim.Adam(
@@ -418,7 +418,7 @@ class SumGANTrainer(Trainer):
                 # Selector and Encoder update
                 ###############################
                 # Forward
-                x_hat, (mu, logvar), scores = self.model.summarizer(x)
+                x_hat, (mu, logvar), scores = self.model.video_summarizer(x)
                 _, h_real = self.model.gan(x)
                 _, h_fake = self.model.gan(x_hat)
 
@@ -441,8 +441,8 @@ class SumGANTrainer(Trainer):
                 # Decoder update
                 ###############################
                 # Forward
-                x_hat, _, _ = self.model.summarizer(x)
-                x_hat_p, _, _ = self.model.summarizer(x, uniform=True)
+                x_hat, _, _ = self.model.video_summarizer(x)
+                x_hat_p, _, _ = self.model.video_summarizer(x, uniform=True)
                 _, h_real = self.model.gan(x)
                 probs_fake, h_fake = self.model.gan(x_hat)
                 probs_uniform, _ = self.model.gan(x_hat_p)
@@ -462,8 +462,8 @@ class SumGANTrainer(Trainer):
                 # Discriminator update
                 ###############################
                 # Forward
-                x_hat, _, scores = self.model.summarizer(x)
-                x_hat_p, _, scores_uniform = self.model.summarizer(x, uniform=True)
+                x_hat, _, scores = self.model.video_summarizer(x)
+                x_hat_p, _, scores_uniform = self.model.video_summarizer(x, uniform=True)
                 if epoch < self.epoch_noise:
                     x = torch.randn_like(x) * x
                     x_hat = x_hat * torch.randn_like(x_hat)
@@ -548,7 +548,7 @@ if __name__ == "__main__":
     assert x.shape[1] == y.shape[1]
     assert y.shape[2] == 1
 
-    model = Summarizer()
+    model = video_summarizer()
     x = torch.randn(10, 3, 1024)
     x_hat, (mu, logvar), scores = model(x)
     print(x.shape, x_hat.shape, mu.shape, logvar.shape, scores.shape)

@@ -6,7 +6,7 @@ import numpy as np
 import h5py
 import torch
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from summarizer.utils.eval import generate_summary, evaluate_summary, generate_scores, evaluate_scores
+from video_summarizer.utils.eval import generate_summary, evaluate_summary, generate_scores, evaluate_scores
 
 class Trainer:
     """Abstract class handling the training process"""

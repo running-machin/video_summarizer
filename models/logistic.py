@@ -8,7 +8,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from summarizer.models import Trainer
+from video_summarizer.models import Trainer
 
 """
 Simple Logistic Regression.

@@ -8,14 +8,14 @@ from torch.autograd import Variable
 from torch.utils.tensorboard import SummaryWriter
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from summarizer.utils import parse_splits_filename
-from summarizer.models.rand import RandomTrainer
-from summarizer.models.logistic import LogisticRegressionTrainer
-from summarizer.models.vasnet import VASNetTrainer
-from summarizer.models.transformer import TransformerTrainer
-from summarizer.models.dsn import DSNTrainer
-from summarizer.models.sumgan import SumGANTrainer
-from summarizer.models.sumgan_att import SumGANAttTrainer
+from video_summarizer.utils import parse_splits_filename
+from video_summarizer.models.rand import RandomTrainer
+from video_summarizer.models.logistic import LogisticRegressionTrainer
+from video_summarizer.models.vasnet import VASNetTrainer
+from video_summarizer.models.transformer import TransformerTrainer
+from video_summarizer.models.dsn import DSNTrainer
+from video_summarizer.models.sumgan import SumGANTrainer
+from video_summarizer.models.sumgan_att import SumGANAttTrainer
 
 
 
@@ -136,7 +136,7 @@ class HParameters:
         os.makedirs(self.log_path, exist_ok=True)
 
         # logger
-        self.logger = logging.getLogger("summarizer")
+        self.logger = logging.getLogger("video_summarizer")
         fmt = logging.Formatter("%(asctime)s::%(levelname)s: %(message)s", "%H:%M:%S")
         ch = logging.StreamHandler()
         fh = logging.FileHandler(os.path.join(self.log_path, "train.log"))

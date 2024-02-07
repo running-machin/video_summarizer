@@ -8,7 +8,7 @@ import torch
 import torch.nn as nn
 from torch.distributions import Bernoulli
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from summarizer.models import Trainer
+from video_summarizer.models import Trainer
 
 """
 Deep Reinforcement Learning for Unsupervised Video Summarization with Diversity-Representativeness Reward

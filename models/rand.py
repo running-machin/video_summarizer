@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from summarizer.models import Trainer
+from video_summarizer.models import Trainer
 
 """
 Randomにスコアの予測を行い,ベースライン手法との比較を行う実装.

@@ -4,7 +4,7 @@ import os
 import os.path as osp
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from summarizer.utils.io import download_file_from_google_drive
+from video_summarizer.utils.io import download_file_from_google_drive
 
 """
 Download `summarizer_dataset_*.h5` files automatically.
