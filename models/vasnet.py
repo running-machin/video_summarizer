@@ -143,7 +143,6 @@ class VASNet(nn.Module):
         y = self.layer_norm(y)
         y = self.k2(y)
         y = self.sigmoid(y)
-        
         y = y.permute(1, 0, 2) # (seq_len, batch_size, 1)
         return y
 
@@ -205,8 +204,7 @@ class VASNetTrainer(Trainer):
                     seq, target = seq.cuda(), target.cuda()
 
                 scores = self.model(seq)
-                scores = scores.to(torch.float64)
-
+                # scores = scores.to(torch.float64)
                 loss = criterion(scores, target)
                 self.optimizer.zero_grad()
                 loss.backward()

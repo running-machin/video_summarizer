@@ -164,7 +164,7 @@ class TransformerTrainer(Trainer):
                     seq, target = seq.cuda(), target.cuda()
 
                 scores = self.model(seq)
-                scores = scores.to(torch.float64)
+                # scores = scores.to(torch.float64)
 
                 loss = criterion(scores, target)
                 self.optimizer.zero_grad()
