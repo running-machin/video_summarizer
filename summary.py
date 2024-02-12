@@ -12,7 +12,7 @@ def frm2video(frm_dir, summary, vid_writer):
     for idx, val in tqdm(enumerate(summary), total=len(summary), ncols=80):
         if val == 1:
             # here frame name starts with "000001.jpg"
-            frm_name = str(idx+1).zfill(6) + ".jpg"
+            frm_name = str(idx+1).zfill(5) + ".jpg"
             frm_path = osp.join(frm_dir, frm_name)
             frm = cv2.imread(frm_path)
             frm = cv2.resize(frm, (args.width, args.height))
