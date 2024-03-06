@@ -4,3 +4,8 @@ logs/*
 datasets/
 !datasets/download_datasets.py
 splits/
+1706525703_SumGANTrainer.zip
+youtube_o84Xp6xh5UE_1920x1080_h264.mp4
+workbench.ipynb
+sumenv/
+models.zip
