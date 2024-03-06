@@ -16,7 +16,7 @@ from video_summarizer.models.transformer import TransformerTrainer
 from video_summarizer.models.dsn import DSNTrainer
 from video_summarizer.models.sumgan import SumGANTrainer
 from video_summarizer.models.sumgan_att import SumGANAttTrainer
-
+from video_summarizer.models.pglsum import PGL_SUM
 
 
 class HParameters:
@@ -69,6 +69,7 @@ class HParameters:
             'dsn': DSNTrainer,
             'sumgan': SumGANTrainer,
             'sumgan_att': SumGANAttTrainer,
+            'pglsum': PGL_SUM,
             None: RandomTrainer
         }.get(args['model'], None)
         if self.model_class is None:
