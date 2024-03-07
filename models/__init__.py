@@ -6,7 +6,7 @@ import numpy as np
 import h5py
 import torch
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from video_summarizer.utils.eval import generate_summary, evaluate_summary, generate_scores, evaluate_scores
+from utils.eval import generate_summary, evaluate_summary, generate_scores, evaluate_scores
 
 class Trainer:
     """Abstract class handling the training process"""
@@ -177,6 +177,8 @@ class Trainer:
                 k.create_dataset("user_summary", data=user_summary)
                 k.create_dataset("machine_summary", data=machine_summary)
                 k.create_dataset("machine_scores", data=machine_scores)
+    def predict_sample(self):
+        pass
 
     def save_best_weights(self, weights_path):
         """Dump current best weights"""

@@ -1,30 +1,39 @@
-absl-py==0.13.0
+absl-py==2.1.0
 argon2-cffi==20.1.0
 astunparse==1.6.3
 async-generator==1.10
 attrs==21.2.0
 backcall==0.2.0
 bleach==4.0.0
+# blosc2==2.5.1
 cachetools==4.2.2
 certifi==2021.5.30
-cffi==1.14.6
+# cffi==1.14.6
 charset-normalizer==2.0.4
 clang==5.0
+# colorama==0.4.6
+# contourpy==1.2.0
 cycler==0.10.0
 Cython==0.29.24
 debugpy==1.4.1
 decorator==5.0.9
-defusedxml==0.7.1
+# defusedxml==0.7.1
+# distutils-pytest==0.2.1
+# dm-tree==0.1.8
 entrypoints==0.3
-flatbuffers==1.12
+filelock==3.13.1
+flatbuffers==23.5.26
+fonttools==4.49.0
+fsspec==2024.2.0
 gast==0.4.0
 google-auth==1.34.0
 google-auth-oauthlib==0.4.5
 google-pasta==0.2.0
-grpcio==1.39.0
-h5py==3.1.0
+grpcio==1.62.0
+h5py==3.10.0
 hdf5storage==0.1.18
 idna==3.2
+# iniconfig==2.0.0
 ipdb==0.13.9
 ipykernel==6.1.0
 ipython==7.26.0
@@ -32,7 +41,7 @@ ipython-genutils==0.2.0
 ipywidgets==7.6.3
 jedi==0.18.0
 Jinja2==3.0.1
-joblib==1.0.1
+joblib==1.3.2
 jsonschema==3.2.0
 jupyter==1.0.0
 jupyter-client==6.1.12
@@ -40,81 +49,98 @@ jupyter-console==6.4.0
 jupyter-core==4.7.1
 jupyterlab-pygments==0.1.2
 jupyterlab-widgets==1.0.0
-keras==2.6.0
+keras==3.0.5
 Keras-Preprocessing==1.1.2
-kiwisolver==1.3.1
+# kiwisolver==1.3.1
+libclang==16.0.6
 Markdown==3.3.4
-MarkupSafe==2.0.1
-matplotlib==3.4.3
-matplotlib-inline==0.1.2
+markdown-it-py==3.0.0
+MarkupSafe==2.1.5
+matplotlib==3.8.3
+matplotlib-inline==0.1.6
+mdurl==0.1.2
 mistune==0.8.4
+# ml-dtypes==0.3.2
+# mpmath==1.3.0
+# msgpack==1.0.8
+# namex==0.0.7
 nbclient==0.5.3
 nbconvert==6.1.0
 nbformat==5.1.3
+# ndindex==1.8
 nest-asyncio==1.5.1
+# networkx==3.2.1
 notebook==6.4.3
-numexpr==2.7.3
-numpy
+numexpr==2.9.0
+numpy==1.26.4
 oauthlib==3.1.1
-opencv-contrib-python==4.5.3.56
-opencv-python==4.5.3.56
+opencv-contrib-python==4.9.0.80
+opencv-python==4.9.0.80
 opt-einsum==3.3.0
-ortools==9.0.9048
+ortools==9.8.3296
 packaging==21.0
-pandas==1.3.1
-pandocfilters==1.4.3
+pandas==2.2.1
+# pandocfilters==1.4.3
 parso==0.8.2
 pexpect==4.8.0
 pickleshare==0.7.5
-Pillow==8.3.1
+pillow==10.2.0
+pkgconfig==1.5.5
+pluggy==1.4.0
 prometheus-client==0.11.0
 prompt-toolkit==3.0.19
-protobuf==3.17.3
+protobuf==4.25.3
 ptyprocess==0.7.0
+# py-cpuinfo==9.0.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
-# pycocotools==2.0.2
-# pycosat==0.6.3
+pycocotools==2.0.7
+pycosat==0.6.3
 pycparser==2.20
-Pygments==2.9.0
+Pygments==2.17.2
 pyparsing==2.4.7
 pyrsistent==0.18.0
-python-dateutil==2.8.2
-pytz==2021.1
-pyzmq==22.2.1
+pytest==8.0.2
+python-dateutil==2.9.0.post0
+pytz==2024.1
+# pywin32==306
+# pywinpty==2.0.13
+pyzmq==25.1.2
 qtconsole==5.1.1
 QtPy==1.9.0
 requests==2.26.0
 requests-oauthlib==1.3.0
+# rich==13.7.1
 rsa==4.7.2
-ruamel.yaml==0.17.16
-ruamel.yaml.clib==0.2.6
-scikit-learn==0.24.2
-scipy==1.7.1
+ruamel.yaml==0.18.6
+ruamel.yaml.clib==0.2.8
+scikit-learn==1.4.1.post1
+scipy==1.12.0
 Send2Trash==1.8.0
+# setuptools==69.1.1
 six==1.15.0
 sklearn==0.0
-tables==3.6.1
-tensorboard==2.6.0
-tensorboard-data-server==0.6.1
-tensorboard-plugin-wit==1.8.0
-tensorflow==2.6.0
-tensorflow-estimator==2.6.0
-termcolor==1.1.0
-terminado==0.11.0
-testpath==0.5.0
-threadpoolctl==2.2.0
+sympy==1.12
+tables==3.9.2
+tensorboard==2.16.2
+# tensorboard-data-server==0.7.2
+# tensorflow==2.16.0rc0
+# tensorflow-intel==2.16.0rc0
+termcolor==2.4.0
+terminado==0.18.0
+testpath==0.6.0
+threadpoolctl==3.3.0
 toml==0.10.2
-torch==1.8.1
-torchaudio==0.8.1
-torchvision==0.9.1
-tornado==6.1
-tqdm==4.62.0
-traitlets==5.0.5
-typing-extensions==3.7.4.3
-urllib3==1.26.6
-wcwidth==0.2.5
+torch==2.2.1
+tornado==6.4
+tqdm==4.66.2
+traitlets==5.14.1
+typing_extensions==4.10.0
+tzdata==2024.1
+urllib3==1.26.18
+wcwidth==0.2.13
 webencodings==0.5.1
-Werkzeug==2.0.1
-widgetsnbextension==3.5.1
-wrapt==1.12.1
+Werkzeug==3.0.1
+wheel==0.42.0
+widgetsnbextension==3.5.2
+wrapt==1.16.0

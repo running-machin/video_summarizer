@@ -8,15 +8,15 @@ from torch.autograd import Variable
 from torch.utils.tensorboard import SummaryWriter
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from video_summarizer.utils import parse_splits_filename
-from video_summarizer.models.rand import RandomTrainer
-from video_summarizer.models.logistic import LogisticRegressionTrainer
-from video_summarizer.models.vasnet import VASNetTrainer
-from video_summarizer.models.transformer import TransformerTrainer
-from video_summarizer.models.dsn import DSNTrainer
-from video_summarizer.models.sumgan import SumGANTrainer
-from video_summarizer.models.sumgan_att import SumGANAttTrainer
-from video_summarizer.models.pglsum import PGL_SUM
+from utils import parse_splits_filename
+from models.rand import RandomTrainer
+from models.logistic import LogisticRegressionTrainer
+from models.vasnet import VASNetTrainer
+from models.transformer import TransformerTrainer
+from models.dsn import DSNTrainer
+from models.sumgan import SumGANTrainer
+from models.sumgan_att import SumGANAttTrainer
+from models.pglsum import PGL_SUM
 
 
 class HParameters:
@@ -78,6 +78,7 @@ class HParameters:
 
         # other dynamic properties
         self._init()
+        print(locals())
 
     def _init(self):
         # 実験名と出力先を指定

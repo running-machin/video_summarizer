@@ -1,5 +1,5 @@
 import numpy as np
-from ortools.algorithms import pywrapknapsack_solver
+from ortools.algorithms.python import knapsack_solver as pywrapknapsack_solver
 
 
 def knapsack_ortools(values, weights, items, capacity):
