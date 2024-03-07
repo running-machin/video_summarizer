@@ -1,11 +1,12 @@
 # Video Summarization
 
 ## Quick setup
-In case, If you want to quickly setup and test the repository,
+In case, If you want to quickly setup and test the repository, this [script](https://github.com/running-machin/video_summarizer/blob/main/run_summarizer.sh) is tested on `Python 3.12.2`
 ```
 sh run_summarizer.sh
 ```
-It is a shell script that downloads the SumMe dataset and preprocess it. And then, train a SUM-GAN model on it. But you might need to install the requirements. If not follow the regular installation
+It is a [shell script](https://github.com/running-machin/video_summarizer/blob/main/run_summarizer.sh) that downloads the SumMe dataset and preprocess it. And then, train a SUM-GAN model on it. Or follow the regular installation below.
+
 ## Installation
 First, please clone this repository.  
 ```

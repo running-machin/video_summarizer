@@ -3,8 +3,8 @@ import argparse
 import sys
 import numpy as np
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from video_summarizer.utils.config import HParameters
-from video_summarizer.utils import Proportion
+from utils.config import HParameters
+from utils import Proportion
 
 
 def train(hps):
