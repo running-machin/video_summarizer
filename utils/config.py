@@ -78,11 +78,10 @@ class HParameters:
 
         # other dynamic properties
         self._init()
-        print(locals())
 
     def _init(self):
         # 実験名と出力先を指定
-        log_dir = str(int(datetime.datetime.now().timestamp()))
+        log_dir = str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
         log_dir += '_' + self.model_class.__name__
         self.log_path = os.path.join('logs', log_dir)
 
@@ -187,6 +186,11 @@ class HParameters:
             hps[var] = val
 
         return hps
+    def save_to_file(self, path):
+        """ save the hyperparameters to a file(json), to load the model later"""
+        # with open(path, 'w') as f:
+        #     json.dump(self.__dict__, f)
+        pass
 
 if __name__ == "__main__":
     # Check default values
