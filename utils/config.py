@@ -55,14 +55,28 @@ class HParameters:
         # Call _init() to initialize other attributes
         self._init()
 
+# def load_from_args(self, args):
+#         # any key from flags
+#         for key in args:
+#             val = args[key]
+#             if val is not None:
+#                 if hasattr(self, key) and isinstance(getattr(self, key), list):
+#                     val = val.split(',')
+#                 setattr(self, key, val)
     def load_from_args(self, args):
+        print('passed in', args)
         # any key from flags
         for key in args:
             val = args[key]
+            attr = hasattr(self, key)
+            print(key, val, attr)
+
             if key == 'log_level':
                 val = val.upper()  # Ensure log_level is in uppercase
             elif val is not None and hasattr(self, key) and isinstance(getattr(self, key), list):
                 val = val.split(',')
+                setattr(self, key, val)
+            elif val is not None and hasattr(self, key) and isinstance(val, dict):
                 setattr(self, key, val)
         
         # pick model
@@ -94,9 +108,10 @@ class HParameters:
         self.writer = SummaryWriter(self.log_path)
 
         # cudaの扱いについて
+
         if self.use_cuda == 'default':
             self.use_cuda = torch.cuda.is_available()
-        elif self.use_cuda == 'yes':
+        elif self.use_cuda == 'yes' or self.use_cuda:
             self.use_cuda = True
         else:
             self.use_cuda = False
@@ -130,7 +145,10 @@ class HParameters:
 
         for splits_file in self.splits_files:
             dataset_name, splits = parse_splits_filename(splits_file)
+            # print("dataset_name", dataset_name)
+            # print("splits", splits)
             self.dataset_name_of_file[splits_file] = dataset_name
+            # print(self.get_dataset_by_name(dataset_name))
             self.dataset_of_file[splits_file] = self.get_dataset_by_name(dataset_name).pop()
             # self.dataset_list = self.get_dataset_by_name(dataset_name)
             # if dataset_name is list:
@@ -181,6 +199,7 @@ class HParameters:
                 "summary_proportion", "selection_algorithm",
                 "log_path", "splits_files", "extra_params"]
         info_str = ""
+
         for i, var in enumerate(vars):
             val = getattr(self, var)
             if isinstance(val, Variable):

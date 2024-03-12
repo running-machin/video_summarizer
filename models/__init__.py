@@ -14,8 +14,10 @@ class Trainer:
         self.hps = hps
         self.log = hps.logger
         self.splits_file = splits_file
+        # print('datasertttt',hps.dataset_of_file )
         self.dataset = h5py.File(hps.dataset_of_file[splits_file], "r")
         self.dataset_name = hps.dataset_name_of_file[splits_file]
+        self._init_model()
         
     def reset(self):
         """Reset between two folds of the cross-validation"""
@@ -141,10 +143,11 @@ class Trainer:
                 f"{self.dataset_name}/Fold_{fold+1}/Train/final_scores",
                 scores, i)
 
-    def predict_dataset(self, pred_path):
+    def predict_dataset(self, pred_path, reload = True):
         """Predict on all videos in the dataset and save in hdfs5 file"""
         # Load best weights
-        self.model.load_state_dict(self.best_weights)
+        if reload:
+            self.model.load_state_dict(self.best_weights)
         self.model.eval()
         
         # Create or open result hdfs5 file
@@ -177,6 +180,7 @@ class Trainer:
                 k.create_dataset("user_summary", data=user_summary)
                 k.create_dataset("machine_summary", data=machine_summary)
                 k.create_dataset("machine_scores", data=machine_scores)
+    
     def predict_sample(self):
         pass
 
@@ -188,4 +192,5 @@ class Trainer:
 
     def load_weights(self, weights_path):
         """Load weights"""
+        print(weights_path)
         self.model.load_state_dict(torch.load(weights_path))
