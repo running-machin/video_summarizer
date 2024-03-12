@@ -49,15 +49,20 @@ class HParameters:
         self.selection_algorithm = 'knapsack'
 
         # logger default level is INFO
-        self.log_level = logging.INFO
+        # self.log_level = logging.INFO
+        self.log_level = 'INFO'
+
+        # Call _init() to initialize other attributes
+        self._init()
 
     def load_from_args(self, args):
         # any key from flags
         for key in args:
             val = args[key]
-            if val is not None:
-                if hasattr(self, key) and isinstance(getattr(self, key), list):
-                    val = val.split(',')
+            if key == 'log_level':
+                val = val.upper()  # Ensure log_level is in uppercase
+            elif val is not None and hasattr(self, key) and isinstance(getattr(self, key), list):
+                val = val.split(',')
                 setattr(self, key, val)
         
         # pick model
@@ -71,7 +76,7 @@ class HParameters:
             'sumgan_att': SumGANAttTrainer,
             'pglsum': PGL_SUM,
             None: RandomTrainer
-        }.get(args['model'], None)
+        }.get(args.get('model', None), None)
         if self.model_class is None:
             raise KeyError(f"{args['model']} model is not unknown")
 
@@ -98,6 +103,11 @@ class HParameters:
 
         # deviceの指定
         if self.use_cuda:
+            num_cuda_devices = torch.cuda.device_count()
+            if self.cuda_device >= num_cuda_devices:
+                # Adjust cuda_device if it's out of range
+                self.cuda_device = num_cuda_devices - 1
+                print("Warning: cuda_device index out of range. Adjusted to", self.cuda_device)
             torch.cuda.set_device(self.cuda_device)
         #     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
@@ -122,6 +132,12 @@ class HParameters:
             dataset_name, splits = parse_splits_filename(splits_file)
             self.dataset_name_of_file[splits_file] = dataset_name
             self.dataset_of_file[splits_file] = self.get_dataset_by_name(dataset_name).pop()
+            # self.dataset_list = self.get_dataset_by_name(dataset_name)
+            # if dataset_name is list:
+            #     self.dataset_of_file[splits_file] = self.get_dataset_by_name(dataset_name).pop()
+            # else:
+            #     self.dataset_of_file[splits_file] = self.get_dataset_by_name(dataset_name)
+            # print(self.dataset_of_file[splits_file])
             self.splits_of_file[splits_file] = splits
         
         # destination for weights and predictions on dataset
@@ -160,7 +176,7 @@ class HParameters:
     
     def __str__(self):
         # ハイパーパラメータを表示
-        vars = ["use_cuda", "cuda_device", "log_level",
+        vars = ["use_cuda", "cuda_device", "log_level","model_class",
                 "weight_decay", "lr", "epochs",
                 "summary_proportion", "selection_algorithm",
                 "log_path", "splits_files", "extra_params"]
@@ -195,6 +211,7 @@ class HParameters:
 if __name__ == "__main__":
     # Check default values
     hps = HParameters()
+    # print(hps.)
     print(hps)
     # Check update with args works well
     args = {
