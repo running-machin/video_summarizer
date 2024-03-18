@@ -10,3 +10,6 @@ workbench.ipynb
 sumenv/
 models.zip
 _requirements.txt
+sample/
+sample_feature/
+sample_video/

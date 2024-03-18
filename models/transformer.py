@@ -123,8 +123,8 @@ class TransformerTrainer(Trainer):
             torch.cuda.set_device(cuda_device)
         if self.hps.use_cuda:
             model.cuda()
-        model = torch.nn.DataParallel(model)
-        return model
+        self.model = torch.nn.DataParallel(model)
+        return self.model
 
     def train(self, fold):
         self.model.train()

@@ -80,7 +80,7 @@ def train(hps):
         hps.logger.info(f"File: {splits_file}   Machine predictions: {pred_path}")
 
         # save results
-        results.append((splits_file, np.mean(corrs_cv), np.mean(avg_fscores_cv), np.mean(max_fscores_cv)))
+        # results.append((splits_file, np.mean(co  rrs_cv), np.mean(avg_fscores_cv), np.mean(max_fscores_cv)))
     
     return results
 
@@ -90,13 +90,16 @@ def eval(hps):
     for splits_file in hps.splits_files:
         print('start prediction !!!')
         model = hps.model_class(hps, splits_file)
+        # have to write a new function load_class that doesnt create a new folder in logs, create the logs. Anf have to see much more
+        pred_path ='/mnt/g/Github/video_summarizer/sample_feature/sample_GoogleNet.h5'
         # model.save_best_weights(weights_path)
-        model.reset().load_weights('logs/1707737585_TransformerTrainer/summe_splits.json.pth')
-        model.predict_dataset(hps.pred_path[splits_file], False)
+        # model.reset().load_weights('logs/1707737585_TransformerTrainer/summe_splits.json.pth')
+
+        model.predict_sample(pred_path, load= True, custom_weights = "/mnt/g/Github/video_summarizer/logs/1707737585_TransformerTrainer/summe_splits.json.pth")
         hps.logger.info(f"File: {splits_file}   Machine predictions: {hps.pred_path[splits_file]}")
 
         # save results
-        # results.append((splits_file, np.mean(corrs_cv), np.mean(avg_fscores_cv), np.mean(max_fscores_cv)))
+        results.append((splits_file, np.mean(corrs_cv), np.mean(avg_fscores_cv), np.mean(max_fscores_cv)))
     
     return results
 
@@ -130,7 +133,7 @@ if __name__ == "__main__":
     print(hps)
     print("----------------------------------------------------------------------")
 
-    eval(hps)
+    train(hps)
 
     # print(hps.splits_files)
 

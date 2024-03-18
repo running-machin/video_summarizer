@@ -1,0 +1,326 @@
+summarizer_dataset_summe_google_pool5.h5: Group
+summarizer_dataset_summe_google_pool5.h5/video_1: Group
+summarizer_dataset_summe_google_pool5.h5/video_1/machine_scores: Dataset, Shape: (4494,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_1/machine_scores: Data Sample: [0.02138332 0.02138332 0.02138332 0.02138332 0.02138332]
+summarizer_dataset_summe_google_pool5.h5/video_1/machine_summary: Dataset, Shape: (4494,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_1/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_1/scores: Dataset, Shape: (300,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_1/scores: Data Sample: [0.02138332 0.01455983 0.01865919 0.00860404 0.02793129]
+summarizer_dataset_summe_google_pool5.h5/video_1/user_summary: Dataset, Shape: (15, 4494), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_1/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_10: Group
+summarizer_dataset_summe_google_pool5.h5/video_10/machine_scores: Dataset, Shape: (9721,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_10/machine_scores: Data Sample: [0.01286536 0.01286536 0.01286536 0.01286536 0.01286536]
+summarizer_dataset_summe_google_pool5.h5/video_10/machine_summary: Dataset, Shape: (9721,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_10/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_10/scores: Dataset, Shape: (649,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_10/scores: Data Sample: [0.01286536 0.00792148 0.01572547 0.01087846 0.11710747]
+summarizer_dataset_summe_google_pool5.h5/video_10/user_summary: Dataset, Shape: (15, 9721), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_10/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_11: Group
+summarizer_dataset_summe_google_pool5.h5/video_11/machine_scores: Dataset, Shape: (1612,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_11/machine_scores: Data Sample: [0.00292529 0.00292529 0.00292529 0.00292529 0.00292529]
+summarizer_dataset_summe_google_pool5.h5/video_11/machine_summary: Dataset, Shape: (1612,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_11/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_11/scores: Dataset, Shape: (108,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_11/scores: Data Sample: [0.00292529 0.00264248 0.00282812 0.00264328 0.00248111]
+summarizer_dataset_summe_google_pool5.h5/video_11/user_summary: Dataset, Shape: (15, 1612), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_11/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_12: Group
+summarizer_dataset_summe_google_pool5.h5/video_12/machine_scores: Dataset, Shape: (950,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_12/machine_scores: Data Sample: [0.0054602 0.0054602 0.0054602 0.0054602 0.0054602]
+summarizer_dataset_summe_google_pool5.h5/video_12/machine_summary: Dataset, Shape: (950,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_12/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_12/scores: Dataset, Shape: (64,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_12/scores: Data Sample: [0.0054602  0.00353475 0.00496579 0.0141626  0.35729414]
+summarizer_dataset_summe_google_pool5.h5/video_12/user_summary: Dataset, Shape: (15, 950), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_12/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_13: Group
+summarizer_dataset_summe_google_pool5.h5/video_13/machine_scores: Dataset, Shape: (3187,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_13/machine_scores: Data Sample: [0.0122241 0.0122241 0.0122241 0.0122241 0.0122241]
+summarizer_dataset_summe_google_pool5.h5/video_13/machine_summary: Dataset, Shape: (3187,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_13/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_13/scores: Dataset, Shape: (213,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_13/scores: Data Sample: [0.0122241  0.01671765 0.00762872 0.00726806 0.01001594]
+summarizer_dataset_summe_google_pool5.h5/video_13/user_summary: Dataset, Shape: (15, 3187), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_13/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_14: Group
+summarizer_dataset_summe_google_pool5.h5/video_14/machine_scores: Dataset, Shape: (4608,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_14/machine_scores: Data Sample: [0.00388381 0.00388381 0.00388381 0.00388381 0.00388381]
+summarizer_dataset_summe_google_pool5.h5/video_14/machine_summary: Dataset, Shape: (4608,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_14/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_14/scores: Dataset, Shape: (308,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_14/scores: Data Sample: [0.00388381 0.00461778 0.01698474 0.02828612 0.0463742 ]
+summarizer_dataset_summe_google_pool5.h5/video_14/user_summary: Dataset, Shape: (15, 4608), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_14/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 1. 1. 1.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_15: Group
+summarizer_dataset_summe_google_pool5.h5/video_15/machine_scores: Dataset, Shape: (6096,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_15/machine_scores: Data Sample: [0.18100686 0.18100686 0.18100686 0.18100686 0.18100686]
+summarizer_dataset_summe_google_pool5.h5/video_15/machine_summary: Dataset, Shape: (6096,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_15/machine_summary: Data Sample: [1. 1. 1. 1. 1.]
+summarizer_dataset_summe_google_pool5.h5/video_15/scores: Dataset, Shape: (407,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_15/scores: Data Sample: [0.18100686 0.0060704  0.00583026 0.00434123 0.0139255 ]
+summarizer_dataset_summe_google_pool5.h5/video_15/user_summary: Dataset, Shape: (17, 6096), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_15/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 1. 1. 1.]]
+summarizer_dataset_summe_google_pool5.h5/video_16: Group
+summarizer_dataset_summe_google_pool5.h5/video_16/machine_scores: Dataset, Shape: (3065,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_16/machine_scores: Data Sample: [0.00275754 0.00275754 0.00275754 0.00275754 0.00275754]
+summarizer_dataset_summe_google_pool5.h5/video_16/machine_summary: Dataset, Shape: (3065,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_16/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_16/scores: Dataset, Shape: (205,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_16/scores: Data Sample: [0.00275754 0.00540814 0.0343865  0.12817284 0.27678397]
+summarizer_dataset_summe_google_pool5.h5/video_16/user_summary: Dataset, Shape: (15, 3065), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_16/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_17: Group
+summarizer_dataset_summe_google_pool5.h5/video_17/machine_scores: Dataset, Shape: (6683,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_17/machine_scores: Data Sample: [0.0650917 0.0650917 0.0650917 0.0650917 0.0650917]
+summarizer_dataset_summe_google_pool5.h5/video_17/machine_summary: Dataset, Shape: (6683,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_17/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_17/scores: Dataset, Shape: (446,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_17/scores: Data Sample: [0.0650917  0.12127667 0.0973471  0.15410489 0.19367984]
+summarizer_dataset_summe_google_pool5.h5/video_17/user_summary: Dataset, Shape: (15, 6683), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_17/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_18: Group
+summarizer_dataset_summe_google_pool5.h5/video_18/machine_scores: Dataset, Shape: (2221,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_18/machine_scores: Data Sample: [0.01681247 0.01681247 0.01681247 0.01681247 0.01681247]
+summarizer_dataset_summe_google_pool5.h5/video_18/machine_summary: Dataset, Shape: (2221,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_18/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_18/scores: Dataset, Shape: (149,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_18/scores: Data Sample: [0.01681247 0.08090021 0.04623446 0.10435724 0.22423889]
+summarizer_dataset_summe_google_pool5.h5/video_18/user_summary: Dataset, Shape: (17, 2221), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_18/user_summary: Data Sample: [[0. 0. 0. ... 1. 1. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_19: Group
+summarizer_dataset_summe_google_pool5.h5/video_19/machine_scores: Dataset, Shape: (1751,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_19/machine_scores: Data Sample: [0.00383028 0.00383028 0.00383028 0.00383028 0.00383028]
+summarizer_dataset_summe_google_pool5.h5/video_19/machine_summary: Dataset, Shape: (1751,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_19/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_19/scores: Dataset, Shape: (117,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_19/scores: Data Sample: [0.00383028 0.01038562 0.00228476 0.00218883 0.00202717]
+summarizer_dataset_summe_google_pool5.h5/video_19/user_summary: Dataset, Shape: (17, 1751), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_19/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_2: Group
+summarizer_dataset_summe_google_pool5.h5/video_2/machine_scores: Dataset, Shape: (4729,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_2/machine_scores: Data Sample: [0.6789955 0.6789955 0.6789955 0.6789955 0.6789955]
+summarizer_dataset_summe_google_pool5.h5/video_2/machine_summary: Dataset, Shape: (4729,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_2/machine_summary: Data Sample: [1. 1. 1. 1. 1.]
+summarizer_dataset_summe_google_pool5.h5/video_2/scores: Dataset, Shape: (316,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_2/scores: Data Sample: [0.6789955  0.25835332 0.18877338 0.56033826 0.6812631 ]
+summarizer_dataset_summe_google_pool5.h5/video_2/user_summary: Dataset, Shape: (18, 4729), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_2/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_20: Group
+summarizer_dataset_summe_google_pool5.h5/video_20/machine_scores: Dataset, Shape: (3863,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_20/machine_scores: Data Sample: [0.02079172 0.02079172 0.02079172 0.02079172 0.02079172]
+summarizer_dataset_summe_google_pool5.h5/video_20/machine_summary: Dataset, Shape: (3863,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_20/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_20/scores: Dataset, Shape: (258,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_20/scores: Data Sample: [0.02079172 0.01038582 0.01950024 0.00918524 0.00570226]
+summarizer_dataset_summe_google_pool5.h5/video_20/user_summary: Dataset, Shape: (17, 3863), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_20/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_21: Group
+summarizer_dataset_summe_google_pool5.h5/video_21/machine_scores: Dataset, Shape: (9672,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_21/machine_scores: Data Sample: [0.14078982 0.14078982 0.14078982 0.14078982 0.14078982]
+summarizer_dataset_summe_google_pool5.h5/video_21/machine_summary: Dataset, Shape: (9672,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_21/machine_summary: Data Sample: [1. 1. 1. 1. 1.]
+summarizer_dataset_summe_google_pool5.h5/video_21/scores: Dataset, Shape: (645,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_21/scores: Data Sample: [0.14078982 0.22126935 0.36988816 0.41502225 0.66471463]
+summarizer_dataset_summe_google_pool5.h5/video_21/user_summary: Dataset, Shape: (15, 9672), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_21/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [1. 1. 1. ... 0. 0. 0.]
+ [1. 1. 1. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 1. 1. 1.]]
+summarizer_dataset_summe_google_pool5.h5/video_22: Group
+summarizer_dataset_summe_google_pool5.h5/video_22/machine_scores: Dataset, Shape: (5178,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_22/machine_scores: Data Sample: [0.01509508 0.01509508 0.01509508 0.01509508 0.01509508]
+summarizer_dataset_summe_google_pool5.h5/video_22/machine_summary: Dataset, Shape: (5178,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_22/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_22/scores: Dataset, Shape: (346,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_22/scores: Data Sample: [0.01509508 0.00633375 0.01400993 0.00908038 0.0140504 ]
+summarizer_dataset_summe_google_pool5.h5/video_22/user_summary: Dataset, Shape: (15, 5178), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_22/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_23: Group
+summarizer_dataset_summe_google_pool5.h5/video_23/machine_scores: Dataset, Shape: (4382,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_23/machine_scores: Data Sample: [0.10418737 0.10418737 0.10418737 0.10418737 0.10418737]
+summarizer_dataset_summe_google_pool5.h5/video_23/machine_summary: Dataset, Shape: (4382,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_23/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_23/scores: Dataset, Shape: (293,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_23/scores: Data Sample: [0.10418737 0.04191474 0.0282002  0.03196869 0.04056692]
+summarizer_dataset_summe_google_pool5.h5/video_23/user_summary: Dataset, Shape: (15, 4382), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_23/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_24: Group
+summarizer_dataset_summe_google_pool5.h5/video_24/machine_scores: Dataset, Shape: (2574,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_24/machine_scores: Data Sample: [0.00406186 0.00406186 0.00406186 0.00406186 0.00406186]
+summarizer_dataset_summe_google_pool5.h5/video_24/machine_summary: Dataset, Shape: (2574,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_24/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_24/scores: Dataset, Shape: (172,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_24/scores: Data Sample: [0.00406186 0.00172757 0.00226636 0.04133481 0.00785799]
+summarizer_dataset_summe_google_pool5.h5/video_24/user_summary: Dataset, Shape: (15, 2574), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_24/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_25: Group
+summarizer_dataset_summe_google_pool5.h5/video_25/machine_scores: Dataset, Shape: (3120,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_25/machine_scores: Data Sample: [0.00503542 0.00503542 0.00503542 0.00503542 0.00503542]
+summarizer_dataset_summe_google_pool5.h5/video_25/machine_summary: Dataset, Shape: (3120,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_25/machine_summary: Data Sample: [1. 1. 1. 1. 1.]
+summarizer_dataset_summe_google_pool5.h5/video_25/scores: Dataset, Shape: (208,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_25/scores: Data Sample: [0.00503542 0.2699775  0.28677228 0.5959263  0.93753225]
+summarizer_dataset_summe_google_pool5.h5/video_25/user_summary: Dataset, Shape: (16, 3120), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_25/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_3: Group
+summarizer_dataset_summe_google_pool5.h5/video_3/machine_scores: Dataset, Shape: (3341,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_3/machine_scores: Data Sample: [0.00959154 0.00959154 0.00959154 0.00959154 0.00959154]
+summarizer_dataset_summe_google_pool5.h5/video_3/machine_summary: Dataset, Shape: (3341,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_3/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_3/scores: Dataset, Shape: (223,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_3/scores: Data Sample: [0.00959154 0.03139748 0.00696343 0.17463309 0.5302406 ]
+summarizer_dataset_summe_google_pool5.h5/video_3/user_summary: Dataset, Shape: (15, 3341), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_3/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_4: Group
+summarizer_dataset_summe_google_pool5.h5/video_4/machine_scores: Dataset, Shape: (3064,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_4/machine_scores: Data Sample: [0.10971083 0.10971083 0.10971083 0.10971083 0.10971083]
+summarizer_dataset_summe_google_pool5.h5/video_4/machine_summary: Dataset, Shape: (3064,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_4/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_4/scores: Dataset, Shape: (205,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_4/scores: Data Sample: [0.10971083 0.02162429 0.03388554 0.03277321 0.0033521 ]
+summarizer_dataset_summe_google_pool5.h5/video_4/user_summary: Dataset, Shape: (15, 3064), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_4/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [1. 1. 1. ... 0. 0. 0.]
+ [1. 1. 1. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_5: Group
+summarizer_dataset_summe_google_pool5.h5/video_5/machine_scores: Dataset, Shape: (5131,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_5/machine_scores: Data Sample: [0.02110017 0.02110017 0.02110017 0.02110017 0.02110017]
+summarizer_dataset_summe_google_pool5.h5/video_5/machine_summary: Dataset, Shape: (5131,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_5/machine_summary: Data Sample: [1. 1. 1. 1. 1.]
+summarizer_dataset_summe_google_pool5.h5/video_5/scores: Dataset, Shape: (343,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_5/scores: Data Sample: [0.02110017 0.09161513 0.10982306 0.00995225 0.04917335]
+summarizer_dataset_summe_google_pool5.h5/video_5/user_summary: Dataset, Shape: (15, 5131), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_5/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_6: Group
+summarizer_dataset_summe_google_pool5.h5/video_6/machine_scores: Dataset, Shape: (5075,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_6/machine_scores: Data Sample: [0.02481678 0.02481678 0.02481678 0.02481678 0.02481678]
+summarizer_dataset_summe_google_pool5.h5/video_6/machine_summary: Dataset, Shape: (5075,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_6/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_6/scores: Dataset, Shape: (339,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_6/scores: Data Sample: [0.02481678 0.01494914 0.00749073 0.01703818 0.00980308]
+summarizer_dataset_summe_google_pool5.h5/video_6/user_summary: Dataset, Shape: (16, 5075), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_6/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_7: Group
+summarizer_dataset_summe_google_pool5.h5/video_7/machine_scores: Dataset, Shape: (9046,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_7/machine_scores: Data Sample: [0.00991284 0.00991284 0.00991284 0.00991284 0.00991284]
+summarizer_dataset_summe_google_pool5.h5/video_7/machine_summary: Dataset, Shape: (9046,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_7/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_7/scores: Dataset, Shape: (604,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_7/scores: Data Sample: [0.00991284 0.00656804 0.01029721 0.00631049 0.00980959]
+summarizer_dataset_summe_google_pool5.h5/video_7/user_summary: Dataset, Shape: (15, 9046), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_7/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_8: Group
+summarizer_dataset_summe_google_pool5.h5/video_8/machine_scores: Dataset, Shape: (1286,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_8/machine_scores: Data Sample: [0.00140094 0.00140094 0.00140094 0.00140094 0.00140094]
+summarizer_dataset_summe_google_pool5.h5/video_8/machine_summary: Dataset, Shape: (1286,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_8/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_8/scores: Dataset, Shape: (86,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_8/scores: Data Sample: [0.00140094 0.00212875 0.00169412 0.00109633 0.00238556]
+summarizer_dataset_summe_google_pool5.h5/video_8/user_summary: Dataset, Shape: (17, 1286), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_8/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]
+summarizer_dataset_summe_google_pool5.h5/video_9: Group
+summarizer_dataset_summe_google_pool5.h5/video_9/machine_scores: Dataset, Shape: (4971,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_9/machine_scores: Data Sample: [0.00769467 0.00769467 0.00769467 0.00769467 0.00769467]
+summarizer_dataset_summe_google_pool5.h5/video_9/machine_summary: Dataset, Shape: (4971,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_9/machine_summary: Data Sample: [0. 0. 0. 0. 0.]
+summarizer_dataset_summe_google_pool5.h5/video_9/scores: Dataset, Shape: (332,), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_9/scores: Data Sample: [0.00769467 0.00749289 0.01329542 0.04968908 0.01518425]
+summarizer_dataset_summe_google_pool5.h5/video_9/user_summary: Dataset, Shape: (15, 4971), Data type: float32
+summarizer_dataset_summe_google_pool5.h5/video_9/user_summary: Data Sample: [[0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]
+ [0. 0. 0. ... 0. 0. 0.]]

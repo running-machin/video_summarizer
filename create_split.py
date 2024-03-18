@@ -48,6 +48,9 @@ if __name__ == "__main__":
     parser.add_argument("--num-splits", type=int, default=5, help="how many splits to generate (default: 5)")
     parser.add_argument("--train-percent", type=float, default=0.8, help="percentage of training data (default: 0.8)")
     args = parser.parse_args()
+    # check the datasets file exists
+    if not osp.exists(args.dataset):
+        raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), args.dataset)
 
     print(f"==========\nArgs:{args}\n==========")
     print(f"Goal: randomly split data for {args.num_splits} times, {args.train_percent:.1%} for training and the rest for testing")
