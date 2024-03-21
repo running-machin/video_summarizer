@@ -10,9 +10,6 @@ opencv-python
 ortools
 pandas
 Pillow==8.3.1
-ptyprocess==0.7.0
-pyasn1==0.4.8
-pyasn1-modules==0.2.8
 pycocotools
 pycosat
 scikit-learn
@@ -29,5 +26,4 @@ torchaudio
 torchvision
 torchsummary
 tqdm
-traitlets==5.0.5
 urllib3
