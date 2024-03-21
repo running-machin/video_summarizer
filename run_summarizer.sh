@@ -1,5 +1,5 @@
 # git clone https://github.com/590shun/summarizer.git
-git clone https://github.com/running-machin/video_summarizer.git
+# git clone https://github.com/running-machin/video_summarizer.git
 apt-get update
 apt-get install ffmpeg -y
 # apt-get install -y libnotifyZ-bin  
