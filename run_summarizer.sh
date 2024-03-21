@@ -41,7 +41,16 @@ python create_split.py -d ./datasets/summarizer_dataset_summe_google_pool5.h5 --
 python create_split.py -d datasets/summarizer_dataset_tvsum_google_pool5.h5 --save-dir splits --save-name tvsum_splits --num-splits 5
 # running the training on the GPU( the -c yes is for using the GPU and -i for setting device id)
 # python main.py --model sumgan -c yes -i 0
-python main.py --model sumgan_att -c yes -i 0 -s all
+python main.py --model sumgan_att -c yes -i 0 -s tvsum
+python main.py --model sumgan_att -c yes -i 0 -s summe
+python main.py --model sumgan -c yes -i 0 -s tvsum
+python main.py --model sumgan -c yes -i 0 -s summe
+python main.py --model vasnet -c yes -i 0 -s tvsum
+python main.py --model vasnet -c yes -i 0 -s summe
+python main.py --model transformer -c yes -i 0 -s tvsum
+python main.py --model transformer -c yes -i 0 -s summe
+python main.py --model dsn -c yes -i 0 -s tvsum
+python main.py --model dsn -c yes -i 0 -s summe
 # python main.py --model vasnet -c yes -i 0
 # python main.py --model transformer -c yes -i -1
 # python evaluation.py
@@ -49,6 +58,6 @@ python main.py --model sumgan_att -c yes -i 0 -s all
 # python summary.py -p logs/<timestamp>_<model_trainer_name>/<dataset_name>_splits.json_preds.h5 -f datasets/videos/summe/frames/Air_Force_One -d summarizer_dataset_summe_google_pool5.h5 -v video_1
 
 # generating a summary
-python summary.py -p logs/1706525703_SumGANTrainer/summe_splits.json_preds.h5 -f datasets/videos/frames/Air_Force_One -d summarizer_dataset_summe_google_pool5.h5 -v video_1
-# python summary.py -p logs/1706525703_SumGANTrainer/tvsum_splits.json_preds.h5 -f datasets/video/frames_cuda/E11zDS9XGzg -d summarizer_dataset_tvsum_google_pool5.h5 -v video_tvsum1
+# python summary.py -p logs/1706525703_SumGANTrainer/summe_splits.json_preds.h5 -f datasets/videos/frames/Air_Force_One -d summarizer_dataset_summe_google_pool5.h5 -v video_1
+# python summary.py -p logs/2024-03-20_08-19-33_TransformerTrainer/tvsum_splits.json_preds.h5 -f datasets/video/frames/E11zDS9XGzg -d datasets/summarizer_dataset_tvsum_google_pool5.h5 -v E11zDS9XGzg
 
