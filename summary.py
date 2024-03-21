@@ -18,7 +18,7 @@ def frm2video(frm_dir, summary, vid_writer):
             frm = cv2.resize(frm, (args.width, args.height))
             vid_writer.write(frm)
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-p", "--path", type=str, required=True, help="Path to hdfs5 predictions file")
     parser.add_argument("-f", "--frames", type=str, required=True, help="Path to frame directory")
@@ -44,3 +44,8 @@ if __name__ == "__main__":
     frm2video(args.frames, summary, vid_writer)
     vid_writer.release()
     print(f"Summary saved at {summary_path}")
+
+if __name__ == "__main__": 
+    # main()
+    dataset_path = "datasets/summarizer_dataset_tvsum_google_pool5.h5"
+    dataset = h5py.File(dataset_path, "r")

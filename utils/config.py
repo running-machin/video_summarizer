@@ -26,15 +26,16 @@ class HParameters:
         self.weight_decay = 0.00001
         self.lr = 0.00005
         self.epochs = 50
-        self.test_every_epochs = 50
+        self.test_every_epochs = 10
 
         # dataset
         self.datasets = [
-           'datasets/summarizer_dataset_summe_google_pool5.h5'
+           'datasets/summarizer_dataset_summe_google_pool5.h5',
+           'datasets/summarizer_dataset_tvsum_google_pool5.h5'
         ]
 
         # default split files to be trained/tested on
-        self.splits_files = 'summe'
+        self.splits_files = 'all'
 
         # default model
         self.model_class = RandomTrainer
@@ -52,8 +53,8 @@ class HParameters:
         # self.log_level = logging.INFO
         self.log_level = 'INFO'
 
-        # Call _init() to initialize other attributes
-        self._init()
+        # Call _init() to initialize other attributes,use this to test the class
+        # self._init()
 
 # def load_from_args(self, args):
 #         # any key from flags
@@ -64,7 +65,6 @@ class HParameters:
 #                     val = val.split(',')
 #                 setattr(self, key, val)
     def load_from_args(self, args):
-        print('passed in', args)
         # any key from flags
         for key in args:
             val = args[key]
@@ -94,11 +94,10 @@ class HParameters:
         if self.model_class is None:
             raise KeyError(f"{args['model']} model is not unknown")
 
-
         # other dynamic properties
-        self._init()
+        self._init(splits_files=args.get('splits_files',"all"))
 
-    def _init(self):
+    def _init(self,splits_files='all'):
         # 実験名と出力先を指定
         log_dir = str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
         log_dir += '_' + self.model_class.__name__
@@ -126,7 +125,8 @@ class HParameters:
             torch.cuda.set_device(self.cuda_device)
         #     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
-        # split fileの指定(defaultは'minimal')
+        # split file takes from args.spilt_files, or its going to be default to "all"
+        self.splits_files = splits_files
         if self.splits_files == 'all':
             self.splits_files = [
                 'splits/tvsum_splits.json',
@@ -137,7 +137,7 @@ class HParameters:
             self.splits_files = ['splits/summe_splits.json']
         elif self.splits_files == 'dataset':
             self.splits_files = ['splits/dataset_splits.json']
-        
+
         # file nameの管理リスト
         self.dataset_name_of_file = {}
         self.dataset_of_file = {}
@@ -204,6 +204,10 @@ class HParameters:
             val = getattr(self, var)
             if isinstance(val, Variable):
                 val = val.data.cpu().numpy().tolist()[0]
+            if var == "cuda_device":
+                val = "GPU" if val == 0 else "CPU"
+            if var == "model_class":
+                val = val.__name__
             info_str += "["+str(i)+"] "+var+": "+str(val)
             info_str += "\n" if i < len(vars)-1 else ""
 

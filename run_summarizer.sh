@@ -6,7 +6,7 @@ apt-get install ffmpeg -y
 cd video_summarizer/
 
 # probably many will not be installed
-# pip install -r requirements.txt
+pip install -r requirements.txt
 
 cd datasets/
 python download_datasets.py
@@ -21,9 +21,10 @@ rm SumMe.zip
 # generate frames in the videos folder (theese is some error in the sh file need to fix it before running it)
 # sh datasets/videos/videos2frames.sh~
 # here is the fixed sh file. so maybe run from here
-cd videos/
+
 python videos2frames.py 
 # or if your on linux
+# cd videos/
 # for f in ./*.webm
 # do
 #   echo "Processing $f file..."
