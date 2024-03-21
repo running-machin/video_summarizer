@@ -31,5 +31,5 @@ def process_videos_in_directory(directory, max_threads):
     # print("Processing complete.")
 
 # Call the function with the directory you want
-process_videos_in_directory('/mnt/g/Github/video_summarizer/datasets/video/', max_threads)
-process_videos_in_directory('/mnt/g/Github/video_summarizer/datasets/videos/', max_threads)
+process_videos_in_directory('~./datasets/video/', max_threads)
+process_videos_in_directory('~./datasets/videos/', max_threads)

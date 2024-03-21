@@ -1,6 +1,7 @@
 google-pasta
 grpcio
 h5py
+hdf5storage
 matplotlib
 numpy
 opencv-contrib-python

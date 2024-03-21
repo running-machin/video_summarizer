@@ -36,7 +36,7 @@ python videos2frames.py
 #   ffmpeg -threads 4 -i "$f" "frames/$name/%05d.jpg"
 # done
 
-cd ../..
+cd ..
 
 python create_split.py -d ./datasets/summarizer_dataset_summe_google_pool5.h5 --save-dir splits --save-name summe_splits --num-splits 5
 python create_split.py -d datasets/summarizer_dataset_tvsum_google_pool5.h5 --save-dir splits --save-name tvsum_splits --num-splits 5
