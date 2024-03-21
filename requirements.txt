@@ -1,15 +1,12 @@
-certifi
 google-pasta
 grpcio
 h5py
 matplotlib
 numpy
-oauthlib==3.1.1
 opencv-contrib-python
 opencv-python
 ortools
 pandas
-Pillow==8.3.1
 pycocotools
 pycosat
 scikit-learn
