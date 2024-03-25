@@ -14,7 +14,7 @@ def train(hps):
         hps.logger.info(f"Start training on {splits_file}")
         n_folds = len(hps.splits_of_file[splits_file])
         corrs_cv, avg_fscores_cv, max_fscores_cv = [], [], []
-        
+        print('splits_file in main:', splits_file)
         # Where to store weight and prediction results
         weights_path = hps.weights_path[splits_file]
         pred_path = hps.pred_path[splits_file]
@@ -121,10 +121,9 @@ if __name__ == "__main__":
 
     hps_init = args.__dict__
     extra_params = {unknown_args[i].lstrip("-"): u.lstrip("-") if u[0] != "-" else True for i, u in enumerate(unknown_args[1:] + ["-"]) if unknown_args[i][0] == "-"} if len(unknown_args) > 0 else {}
-    extra_params["encoder_layers"] = 6
+    # extra_params["encoder_layers"] = 6
     hps_init["extra_params"] = extra_params
     # hps_init["extra_params"] = {"encoder_layers":10}
-  
     hps = HParameters()
     # print(hps.dataset_of_file[splits_file])
     hps.load_from_args(hps_init)

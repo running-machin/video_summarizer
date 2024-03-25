@@ -38,5 +38,5 @@ def process_videos_in_directory(directory, max_threads):
 if __name__ == '__main__':
     print(os.getcwd)
 # Call the function with the directory you want
-    # process_videos_in_directory(os.getcwd()+'/datasets/video/', max_threads)git config --global user.email "youremail@example.com"
-    process_videos_in_directory(os.getcwd()+'/datasets/videos/', max_threads)
+process_videos_in_directory('~./datasets/video/', max_threads)
+process_videos_in_directory('~./datasets/videos/', max_threads)
