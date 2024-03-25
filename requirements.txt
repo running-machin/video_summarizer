@@ -1,5 +1,6 @@
 google-pasta
 grpcio
+gdown
 h5py
 hdf5storage
 matplotlib

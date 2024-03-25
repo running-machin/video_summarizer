@@ -1,7 +1,7 @@
 # git clone https://github.com/590shun/summarizer.git
 # git clone https://github.com/running-machin/video_summarizer.git
 apt-get update
-apt-get install ffmpeg -y
+apt-get install ffmpeg  tar unzip -y
 # apt-get install -y libnotifyZ-bin  
 cd video_summarizer/
 
@@ -13,7 +13,7 @@ python download_datasets.py
 wget https://data.vision.ee.ethz.ch/cvl/SumMe/SumMe.zip
 wget https://people.csail.mit.edu/yalesong/tvsum/tvsum50_ver_1_1.tgz
 tar -xvzf tvsum50_ver_1_1.tgz
-unzip /ydata-tvsum50-v1_1/ydata-tvsum50-video.zip
+unzip ydata-tvsum50-v1_1/ydata-tvsum50-video.zip
 rm tvsum50_ver_1_1.tgz
 unzip SumMe.zip 
 rm SumMe.zip
