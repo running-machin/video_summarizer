@@ -58,7 +58,7 @@ When training, by the end of the classification, scores are computed on every vi
 ```
 python summary.py -p logs/<timestamp>_<model_trainer_name>/<dataset_name>_splits.json_preds.h5 -f datasets/videos/summe/frames/Air_Force_One -d summarizer_dataset_summe_google_pool5.h5 -v video_1
 ```
-
+To decide which frames `-f` to select for the summary use the [link](https://github.com/KaiyangZhou/pytorch-vsumm-reinforce/issues/85) to decide the video `-v` to be used.
 ## References
 Yale Song et al. "TVSum: Summarizing web videos using titles", CVPR2015. [paper](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)  
 Michael Gygli et al. "Creating Summaries from User Videos", ECCV2014. [paper](https://link.springer.com/chapter/10.1007/978-3-319-10584-0_33)  

@@ -26,15 +26,16 @@ class HParameters:
         self.weight_decay = 0.00001
         self.lr = 0.00005
         self.epochs = 50
-        self.test_every_epochs = 50
+        self.test_every_epochs = 10
 
         # dataset
         self.datasets = [
-           'datasets/summarizer_dataset_summe_google_pool5.h5'
+           'datasets/summarizer_dataset_summe_google_pool5.h5',
+           'datasets/summarizer_dataset_tvsum_google_pool5.h5'
         ]
 
         # default split files to be trained/tested on
-        self.splits_files = 'summe'
+        self.splits_files = 'all'
 
         # default model
         self.model_class = RandomTrainer
@@ -49,15 +50,33 @@ class HParameters:
         self.selection_algorithm = 'knapsack'
 
         # logger default level is INFO
-        self.log_level = logging.INFO
+        # self.log_level = logging.INFO
+        self.log_level = 'INFO'
 
+        # Call _init() to initialize other attributes,use this to test the class
+        # self._init()
+
+# def load_from_args(self, args):
+#         # any key from flags
+#         for key in args:
+#             val = args[key]
+#             if val is not None:
+#                 if hasattr(self, key) and isinstance(getattr(self, key), list):
+#                     val = val.split(',')
+#                 setattr(self, key, val)
     def load_from_args(self, args):
         # any key from flags
         for key in args:
             val = args[key]
-            if val is not None:
-                if hasattr(self, key) and isinstance(getattr(self, key), list):
-                    val = val.split(',')
+            attr = hasattr(self, key)
+            print(key, val, attr)
+
+            if key == 'log_level':
+                val = val.upper()  # Ensure log_level is in uppercase
+            elif val is not None and hasattr(self, key) and isinstance(getattr(self, key), list):
+                val = val.split(',')
+                setattr(self, key, val)
+            elif val is not None and hasattr(self, key) and isinstance(val, dict):
                 setattr(self, key, val)
         
         # pick model
@@ -71,15 +90,14 @@ class HParameters:
             'sumgan_att': SumGANAttTrainer,
             'pglsum': PGL_SUM,
             None: RandomTrainer
-        }.get(args['model'], None)
+        }.get(args.get('model', None), None)
         if self.model_class is None:
             raise KeyError(f"{args['model']} model is not unknown")
 
-
         # other dynamic properties
-        self._init()
+        self._init(splits_files=args.get('splits_files',"all"))
 
-    def _init(self):
+    def _init(self,splits_files='all'):
         # 実験名と出力先を指定
         log_dir = str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
         log_dir += '_' + self.model_class.__name__
@@ -89,19 +107,26 @@ class HParameters:
         self.writer = SummaryWriter(self.log_path)
 
         # cudaの扱いについて
+
         if self.use_cuda == 'default':
             self.use_cuda = torch.cuda.is_available()
-        elif self.use_cuda == 'yes':
+        elif self.use_cuda == 'yes' or self.use_cuda:
             self.use_cuda = True
         else:
             self.use_cuda = False
 
         # deviceの指定
         if self.use_cuda:
+            num_cuda_devices = torch.cuda.device_count()
+            if self.cuda_device >= num_cuda_devices:
+                # Adjust cuda_device if it's out of range
+                self.cuda_device = num_cuda_devices - 1
+                print("Warning: cuda_device index out of range. Adjusted to", self.cuda_device)
             torch.cuda.set_device(self.cuda_device)
         #     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
-        # split fileの指定(defaultは'minimal')
+        # split file takes from args.spilt_files, or its going to be default to "all"
+        self.splits_files = splits_files
         if self.splits_files == 'all':
             self.splits_files = [
                 'splits/tvsum_splits.json',
@@ -112,7 +137,7 @@ class HParameters:
             self.splits_files = ['splits/summe_splits.json']
         elif self.splits_files == 'dataset':
             self.splits_files = ['splits/dataset_splits.json']
-        
+
         # file nameの管理リスト
         self.dataset_name_of_file = {}
         self.dataset_of_file = {}
@@ -120,8 +145,17 @@ class HParameters:
 
         for splits_file in self.splits_files:
             dataset_name, splits = parse_splits_filename(splits_file)
+            # print("dataset_name", dataset_name)
+            # print("splits", splits)
             self.dataset_name_of_file[splits_file] = dataset_name
+            # print(self.get_dataset_by_name(dataset_name))
             self.dataset_of_file[splits_file] = self.get_dataset_by_name(dataset_name).pop()
+            # self.dataset_list = self.get_dataset_by_name(dataset_name)
+            # if dataset_name is list:
+            #     self.dataset_of_file[splits_file] = self.get_dataset_by_name(dataset_name).pop()
+            # else:
+            #     self.dataset_of_file[splits_file] = self.get_dataset_by_name(dataset_name)
+            # print(self.dataset_of_file[splits_file])
             self.splits_of_file[splits_file] = splits
         
         # destination for weights and predictions on dataset
@@ -160,15 +194,20 @@ class HParameters:
     
     def __str__(self):
         # ハイパーパラメータを表示
-        vars = ["use_cuda", "cuda_device", "log_level",
+        vars = ["use_cuda", "cuda_device", "log_level","model_class",
                 "weight_decay", "lr", "epochs",
                 "summary_proportion", "selection_algorithm",
                 "log_path", "splits_files", "extra_params"]
         info_str = ""
+
         for i, var in enumerate(vars):
             val = getattr(self, var)
             if isinstance(val, Variable):
                 val = val.data.cpu().numpy().tolist()[0]
+            if var == "cuda_device":
+                val = "GPU" if val == 0 else "CPU"
+            if var == "model_class":
+                val = val.__name__
             info_str += "["+str(i)+"] "+var+": "+str(val)
             info_str += "\n" if i < len(vars)-1 else ""
 
@@ -195,6 +234,7 @@ class HParameters:
 if __name__ == "__main__":
     # Check default values
     hps = HParameters()
+    # print(hps.)
     print(hps)
     # Check update with args works well
     args = {

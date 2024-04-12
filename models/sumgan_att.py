@@ -112,7 +112,7 @@ class video_summarizer(nn.Module):
         """
         if uniform:
             seq_len, batch_size, _ = x.size()
-            scores = torch.rand((seq_len, batch_size, 1)).to(x.device)
+            scores = torch.rand((seq_len, batch_size, 1), device=x.device)
         else:
             scores = self.selector(x)
         

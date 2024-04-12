@@ -58,11 +58,14 @@ def h5_contents_txt(h5_filename, txt_filename):
         with open(txt_filename, 'w') as txt_file:
             write_h5_contents_to_file(h5_file, txt_file)
 
-    
 
+    
 if __name__ == "__main__":
     # Example usage
-    file_path = "/mnt/g/Github/video_summarizer/datasets/summarizer_dataset_summe_google_pool5.h5"
+    # file_path = "/mnt/g/Github/video_summarizer/sample_feature/sample_GoogleNet.h5"
+    # file_path = "/mnt/g/Github/video_summarizer/logs/1707737585_TransformerTrainer/summe_splits.json_preds.h5"
+    # file_path = "/mnt/g/Github/video_summarizer/logs/1707737585_TransformerTrainer/summe_splits.json.h5"
+    file_path = "/mnt/g/Github/video_summarizer/datasets/summarizer_dataset_tvsum_google_pool5.h5"
     f = h5py.File(file_path, "r")
     print_h5_contents(f)
     # h5_contents_txt(file_path, "output.txt")

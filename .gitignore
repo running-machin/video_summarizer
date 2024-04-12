@@ -3,6 +3,7 @@ logs/*
 !logs/example/
 datasets/
 !datasets/download_datasets.py
+!datasets/videos2frames.py
 splits/
 1706525703_SumGANTrainer.zip
 youtube_o84Xp6xh5UE_1920x1080_h264.mp4
@@ -10,3 +11,6 @@ workbench.ipynb
 sumenv/
 models.zip
 _requirements.txt
+sample/
+sample_feature/
+sample_video/

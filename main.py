@@ -14,7 +14,7 @@ def train(hps):
         hps.logger.info(f"Start training on {splits_file}")
         n_folds = len(hps.splits_of_file[splits_file])
         corrs_cv, avg_fscores_cv, max_fscores_cv = [], [], []
-        
+        print('splits_file in main:', splits_file)
         # Where to store weight and prediction results
         weights_path = hps.weights_path[splits_file]
         pred_path = hps.pred_path[splits_file]
@@ -80,6 +80,25 @@ def train(hps):
         hps.logger.info(f"File: {splits_file}   Machine predictions: {pred_path}")
 
         # save results
+        # results.append((splits_file, np.mean(co  rrs_cv), np.mean(avg_fscores_cv), np.mean(max_fscores_cv)))
+    
+    return results
+
+def eval(hps):
+    results = []
+    # Run for each split file
+    for splits_file in hps.splits_files:
+        print('start prediction !!!')
+        model = hps.model_class(hps, splits_file)
+        # have to write a new function load_class that doesnt create a new folder in logs, create the logs. Anf have to see much more
+        pred_path ='/mnt/g/Github/video_summarizer/sample_feature/sample_GoogleNet.h5'
+        # model.save_best_weights(weights_path)
+        # model.reset().load_weights('logs/1707737585_TransformerTrainer/summe_splits.json.pth')
+
+        model.predict_sample(pred_path, load= True, custom_weights = "/mnt/g/Github/video_summarizer/logs/1707737585_TransformerTrainer/summe_splits.json.pth")
+        hps.logger.info(f"File: {splits_file}   Machine predictions: {hps.pred_path[splits_file]}")
+
+        # save results
         results.append((splits_file, np.mean(corrs_cv), np.mean(avg_fscores_cv), np.mean(max_fscores_cv)))
     
     return results
@@ -88,9 +107,9 @@ def train(hps):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Summarizer : Model Training")
     parser.add_argument("-c", "--use-cuda", choices=["yes", "no", "default"], default="default", help="Use cuda for pytorch models")
-    parser.add_argument("-i", "--cuda-device", type=int, help="If cuda-enabled, ID of GPU to use")
+    parser.add_argument("-i", "--cuda-device", type=int, default=0, help="If cuda-enabled, ID of GPU to use")
     parser.add_argument("-s", "--splits-files", type=str, help="Comma separated list of split files (shorthands: minimal, overfit, all)")
-    parser.add_argument("-m", "--model", type=str, help="Model class name")
+    parser.add_argument("-m", "--model", type=str, default= "transformer", help="Model class name")
     parser.add_argument("-e", "--epochs", type=int, help="Number of epochs for train mode")
     parser.add_argument("-r", "--lr", type=float, help="Learning rate for train mode")
     parser.add_argument("-d", "--weight-decay", type=float, help="Weight decay (L2 penalty-based regularization)")
@@ -102,9 +121,11 @@ if __name__ == "__main__":
 
     hps_init = args.__dict__
     extra_params = {unknown_args[i].lstrip("-"): u.lstrip("-") if u[0] != "-" else True for i, u in enumerate(unknown_args[1:] + ["-"]) if unknown_args[i][0] == "-"} if len(unknown_args) > 0 else {}
+    # extra_params["encoder_layers"] = 6
     hps_init["extra_params"] = extra_params
-
+    # hps_init["extra_params"] = {"encoder_layers":10}
     hps = HParameters()
+    # print(hps.dataset_of_file[splits_file])
     hps.load_from_args(hps_init)
     print("Hyperparameters:")
     print("----------------------------------------------------------------------")
@@ -112,6 +133,8 @@ if __name__ == "__main__":
     print("----------------------------------------------------------------------")
 
     train(hps)
+
+    # print(hps.splits_files)
 
     # Close TensorBoard Writer
     hps.writer.close()

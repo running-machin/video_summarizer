@@ -8,7 +8,7 @@ from utils.eval import evaluate_scores
 
 # Evaluation (Kendall's & Spearman's correlation)
 # setting
-m = h5py.File('./logs/1632145246_DSNTrainer/summe_splits.json_preds.h5', 'r')
+m = h5py.File('logs/1707231795_DSNTrainer/summe_splits.json_preds.h5', 'r')
 u = h5py.File('./datasets/summarizer_dataset_summe_google_pool5.h5', 'r')
 
 # load video list

@@ -14,8 +14,10 @@ class Trainer:
         self.hps = hps
         self.log = hps.logger
         self.splits_file = splits_file
+        # print('datasertttt',hps.dataset_of_file )
         self.dataset = h5py.File(hps.dataset_of_file[splits_file], "r")
         self.dataset_name = hps.dataset_name_of_file[splits_file]
+        self._init_model()
         
     def reset(self):
         """Reset between two folds of the cross-validation"""
@@ -141,10 +143,11 @@ class Trainer:
                 f"{self.dataset_name}/Fold_{fold+1}/Train/final_scores",
                 scores, i)
 
-    def predict_dataset(self, pred_path):
+    def predict_dataset(self, pred_path, reload = True):
         """Predict on all videos in the dataset and save in hdfs5 file"""
         # Load best weights
-        self.model.load_state_dict(self.best_weights)
+        if reload:
+            self.model.load_state_dict(self.best_weights)
         self.model.eval()
         
         # Create or open result hdfs5 file
@@ -177,7 +180,46 @@ class Trainer:
                 k.create_dataset("user_summary", data=user_summary)
                 k.create_dataset("machine_summary", data=machine_summary)
                 k.create_dataset("machine_scores", data=machine_scores)
-    def predict_sample(self):
+    
+    def predict_sample(self,pred_path, load = True, custom_weights = None):
+        """Predict on all videos in the sample and save in hdfs5 file
+        Args:
+          pred_path: path to save the predictions
+          load: if True, load the custom weights
+          custom_weights: custom weights path to load"""
+        # Load best weights
+        if load:
+            self.model.load_state_dict(self.custom_weights)
+        self.model.eval()
+        # Create or open result hdfs5 file
+        with h5py.File(pred_path, "w") as f:
+            dataset_file = os.path.basename(self.hps.dataset_of_file[self.splits_file])
+            g = f.create_group(dataset_file)
+            for key in self.dataset.keys():
+                # Get video data
+                d = self.dataset[key]
+                seq = d["features"][...]
+                cps = d["change_points"][...]
+                n_frames = d["n_frames"][()]
+                nfps = d["n_frame_per_seg"][...].tolist()
+                positions = d["picks"][...]
+                user_summary = d["user_summary"][...]
+                
+                # Predict scores and compute machine summary/scores
+                seq = torch.from_numpy(seq).unsqueeze(1)
+                if self.hps.use_cuda:
+                    seq = seq.cuda()
+                scores = self.model(seq).squeeze().detach().cpu().numpy()
+                machine_summary = generate_summary(scores, cps, n_frames, nfps, positions, self.hps.summary_proportion, self.hps.selection_algorithm)
+                machine_scores = generate_scores(scores, n_frames, positions)
+                
+                # Save in hdfs5 file
+                k = g.create_group(key)
+                k.create_dataset("scores", data=scores)
+                k.create_dataset("user_summary", data=user_summary)
+                k.create_dataset("machine_summary", data=machine_summary)
+                k.create_dataset("machine_scores", data=machine_scores)
+            
         pass
 
     def save_best_weights(self, weights_path):
@@ -188,4 +230,5 @@ class Trainer:
 
     def load_weights(self, weights_path):
         """Load weights"""
+        print(weights_path)
         self.model.load_state_dict(torch.load(weights_path))
