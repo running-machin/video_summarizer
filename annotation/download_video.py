@@ -86,9 +86,10 @@ class vid2frames:
             video_path: Path to the input video file.
         """
         self.video_path = video_path
-        self.file_name = os.path.basename(video_path).split('.')[0]
+        
         self.output_dir = os.path.join(os.getcwd(), 'frames')
         self.num_threads = 16 if os.cpu_count() > 16 else os.cpu_count()
+        self.VIDEO_EXTENSIONS = [".mp4", ".mkv", ".avi", ".mov", ".wmv", ".flv", ".webm"]
 
     def extract_frames_multithreaded(self, video_path: str, output_dir: str, num_threads: int = None):
         """
@@ -107,6 +108,11 @@ class vid2frames:
         Raises:
             ValueError: If the `output_dir` does not exist and cannot be created.
         """
+        self.video_path = video_path
+        self.output_dir = output_dir
+        self.num_threads = num_threads if num_threads else self.num_threads
+        self.file_name = os.path.basename(self.video_path).split('.')[0]
+        print("file name",self.file_name)
         if not num_threads:
             num_threads = self.num_threads
 
@@ -134,15 +140,15 @@ class vid2frames:
                 bit_rate = int(line.split("=")[1])
         if not width or not height:
             raise ValueError("Failed to determine video resolution using ffprobe.")
-
         # Construct ffmpeg command with multithreading
         command = [
             "ffmpeg",
             "-i", video_path,
             "-threads", str(num_threads),
+             "-loglevel", "error",  # Suppress all output except for error messages #Did not test this one
             # "-vf", f"scale={width}:{height}",  # Scale to maintain original width
             # "-b:v", f"{bit_rate}",
-            f"{os.path.join(output_dir,self.file_name)}/frame_%05d.jpg"  # Output format with padding
+            f"{os.path.join(output_dir,self.file_name,'frames')}/%05d.jpg"  # Output format with padding
         ]
         # print(" ".join([w for w in command]))
         process = Popen(command)
@@ -161,18 +167,23 @@ class vid2frames:
             ValueError: If any of the videos in the `folder_path` cannot be extracted
                 frames from.
         """
-        videos = [os.path.join(folder_path, file) for file in os.listdir(folder_path) if file.endswith(self.VIDEO_EXTENSIONS)]
+        videos = [os.path.join(folder_path, file) for file in os.listdir(folder_path) if file.endswith(tuple(self.VIDEO_EXTENSIONS))]
 
         for video in videos:
             try:
-                self.extract_frames_multithreaded(video, os.path.join(folder_path, os.path.basename(video)[:-4]))
+                self.extract_frames_multithreaded(video_path = video,output_dir= folder_path)
             except ValueError as e:
                 raise ValueError(f"{video} could not be extracted. {e}") from None
 
 
+
 if __name__ == "__main__": 
-    url = 'https://www.youtube.com/watch?v=LASr3qW1YWg'
+    url = 'https://youtu.be/T5oxMXX2pPY?si=TqdX-NSxObrA-upl'
     downloader = Downloader(url)
-    downloader.download('high', downloader.output_dir)
-    print(f"Downloaded Successfully to {downloader.output_dir}")
+    # downloader.download('high', downloader.output_dir)
+    # print(f"Downloaded Successfully to {downloader.output_dir}")
+    extractor = vid2frames(downloader.output_dir)
+    extractor.extract_batches(downloader.output_dir)
+    extractor.extract_frames_multithreaded(downloader.output_dir, downloader.output_dir)
+
     
