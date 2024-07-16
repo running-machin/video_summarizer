@@ -3,6 +3,7 @@ import os
 import sys
 import subprocess
 from subprocess import Popen,PIPE
+import h5py
 
 # print(os.curdir)
 
@@ -19,23 +20,25 @@ def extract_frames_multithreaded(video_path, output_dir, num_threads=4):
   """
 
   # Get original video resolution
-  command = ["ffprobe", "-v", "error", "-show_format", "-show_streams", video_path]
-  probe_process = Popen(command, stdout=PIPE, stderr=PIPE)
-  output, _ = probe_process.communicate()
-  output_str = output.decode('utf-8')
+  if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+  # command = ["ffprobe", "-v", "error", "-show_format", "-show_streams", video_path]
+  # probe_process = Popen(command, stdout=PIPE, stderr=PIPE)
+  # output, _ = probe_process.communicate()
+  # output_str = output.decode('utf-8')
 
-  # Find video width and height from ffprobe output
-  width = None
-  height = None
-  for line in output_str.splitlines():
-    if line.startswith("width="):
-      width = int(line.split("=")[1])
-    elif line.startswith("height="):
-      height = int(line.split("=")[1])
-    elif line.startswith("bit_rate="):
-      bit_rate = int(line.split("=")[1])
-  if not width or not height:
-    raise ValueError("Failed to determine video resolution using ffprobe.")
+  # # Find video width and height from ffprobe output
+  # width = None
+  # height = None
+  # for line in output_str.splitlines():
+  #   if line.startswith("width="):
+  #     width = int(line.split("=")[1])
+  #   elif line.startswith("height="):
+  #     height = int(line.split("=")[1])
+  #   elif line.startswith("bit_rate="):
+  #     bit_rate = int(line.split("=")[1])
+  # if not width or not height:
+  #   raise ValueError("Failed to determine video resolution using ffprobe.")
 
   # Construct ffmpeg command with multithreading
   command = [
@@ -79,8 +82,15 @@ def process_videos_in_directory(directory, max_threads):
     # Change the current directory back to the original directory
     os.chdir(default_dir)
 
+
 if __name__ == '__main__':
     print(os.getcwd)
 # Call the function with the directory you want
-process_videos_in_directory('~./datasets/video/', max_threads)
-process_videos_in_directory('~./datasets/videos/', max_threads)
+# process_videos_in_directory('~./datasets/video/', max_threads)
+# process_videos_in_directory('~./datasets/videos/', max_threads)
+filename = 'datasets/summarizer_dataset_tvsum_google_pool5.h5'
+with h5py.File(filename,'r') as file:
+        # print(list(file['video_1'].keys()))
+        video_name = file['video_1']['video_name'][()]
+extract_frames_multithreaded(f'datasets/video/{video_name}.mp4', 'datasets/video/frames/video_1', num_threads=4)
+

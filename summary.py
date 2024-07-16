@@ -30,7 +30,7 @@ def framesfromsummary(frm_dir,video, save_path, summary, width, height):
             frm_name = str(idx+1).zfill(5) + ".jpg"
             frm_path = osp.join(frm_dir, frm_name)
             frm = cv2.imread(frm_path)
-            frm = cv2.resize(frm, (width, height))
+            # frm = cv2.resize(frm, (width, height)) #detection/annotion while bias checking can become hard if resized
             # save the frame in the directiory as jpg
             cv2.imwrite(osp.join(save_path, f'{video}_{frm_name}'), frm)
             # check if the frame is using os.path
@@ -61,10 +61,11 @@ def summarise(args):
         vid_writer.release()
     else:
         # save as frames
-        summary_path = osp.join(osp.dirname(args.path),'summaries','frames')
+        
         h5_preds = h5py.File(args.path, "r")
         dataset = h5_preds[args.dataset]
         summary = dataset[args.video]["machine_summary"][...]
+        summary_path = osp.join(osp.dirname(args.path),'summaries',args.dataset.split('.')[0],'frames')
         framesfromsummary(args.frames, args.video, summary_path, summary, args.width, args.height)
 
     print(f"Summary saved at {summary_path}")

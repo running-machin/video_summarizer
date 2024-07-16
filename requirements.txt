@@ -4,6 +4,7 @@ gdown
 h5py
 hdf5storage
 matplotlib
+moviepy
 numpy
 opencv-contrib-python
 opencv-python
@@ -11,13 +12,15 @@ ortools
 pandas
 pycocotools
 pycosat
+pytube
+pylabel
 scikit-learn
 scipy
 tables
 tensorboard
 # tensorboard-data-server==0.6.1
 # tensorboard-plugin-wit==1.8.0
-tensorflow
+# tensorflow
 # tensorflow-estimator==2.6.0
 toml
 torch
@@ -26,3 +29,4 @@ torchvision
 torchsummary
 tqdm
 urllib3
+whisperx @ git+https://github.com/m-bain/whisperx.git

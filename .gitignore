@@ -1,7 +1,7 @@
 __pycache__
 logs/*
 !logs/example/
-datasets/
+datasets/*
 !datasets/download_datasets.py
 !datasets/videos2frames.py
 splits/
@@ -14,3 +14,7 @@ _requirements.txt
 sample/
 sample_feature/
 sample_video/
+downloaded_videos/
+yolo*
+models/persistent/
+*h5

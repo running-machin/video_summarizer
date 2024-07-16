@@ -60,5 +60,8 @@ python main.py --model dsn -c yes -i 0 -s summe
 
 # generating a summary
 # python summary.py -p logs/2024-03-20_08-55-09_VASNetTrainer/summe_splits.json_preds.h5 -f datasets/videos/frames/video_10 -d summarizer_dataset_summe_google_pool5.h5 -v video_10
-# python summary.py -p logs/2024-03-20_08-19-33_TransformerTrainer/tvsum_splits.json_preds.h5 -f datasets/video/frames/video_10 -d datasets/summarizer_dataset_tvsum_google_pool5.h5 -v video_10
+python summary.py -p logs/2024-03-20_08-21-35_SumGANAttTrainer/tvsum_splits.json_preds.h5 -f datasets/video/frames/video_10 -d datasets/summarizer_dataset_tvsum_google_pool5.h5 -v video_10
 
+python summary.py -p logs/2024-03-20_08-55-09_VASNetTrainer/summe_splits.json_preds.h5 -f datasets/videos/frames/video_10 -d summarizer_dataset_summe_google_pool5.h5 -v video_10
+
+datasets/summarizer_dataset_tvsum_google_pool5.h5

@@ -13,13 +13,13 @@ VIDEO_EXTENSIONS = [".mp4", ".mkv", ".avi", ".mov", ".wmv", ".flv", ".webm"]
 device = "cuda" if torch.cuda.is_available() else "cpu"
 batch_size = 16  # reduce if low on GPU mem
 compute_type = "float16" # change to "int8" if low on GPU mem (may reduce accuracy)
-
+silent_mode={"verbose": False}
 def labeling(source):
     model = YOLOWorld('yolov8x-world.pt')  # Load pretrain or fine-tune model
 
     # Process the image
     # source = cv2.imread('/workspace/detect-anotation/frames_test/frame23.jpg')
-    results = model.predict(source)
+    results = model.predict(source,**silent_mode)
 
     return results
 
@@ -81,7 +81,7 @@ def gender_detect(source):
         model.set_classes(['man','woman'])
         model.save('yolov8x-world_gender.pt')
     model = YOLOWorld('yolov8x-world_gender.pt')
-    results = model.predict(source)
+    results = model.predict(source,**silent_mode)
     return results
 def check_gender(dict_list):
     genders = (0, 0)
@@ -96,6 +96,7 @@ def check_gender(dict_list):
             elif 'man' in d['name'].lower():
                 genders = (genders[0] + 1, genders[1])
     return genders
+
 
 def gender_data(results,df):
     attribute = {}
@@ -132,31 +133,59 @@ def audio_transcript(audio):
     return transcript
 
 
-if __name__ == "__main__":
 
-    videos_path = '/mnt/g/Github/video_summarizer/downloaded_videos'
-    videos = [os.path.join(videos_path, file) for file in os.listdir(videos_path) if file.endswith(tuple(VIDEO_EXTENSIONS))]
+def annotate(videos_path:str):
+    '''
+    Annotate the videos in the given
+    input: videos_path: str : path to the video, should contain the frames folder in it
+    '''
+    # videos_path = '/mnt/g/Github/video_summarizer/downloaded_videos'
+    # videos = [os.path.join(videos_path, file) for file in os.listdir(videos_path) if file.endswith(tuple(VIDEO_EXTENSIONS))]
+    videos = [videos_path]
     batch_size = 100
     for video in videos:
         label_path = os.path.join(os.path.dirname(video),os.path.basename(video).split('.')[0],'labels')
         frames_path = os.path.join(os.path.dirname(video),os.path.basename(video).split('.')[0],'frames')
+        gender_path = os.path.join(label_path,'gender_labels')
         images = [os.path.join(frames_path,img) for img in os.listdir(frames_path) if img.endswith('.jpg')]
-        # load every 1000 images to labelling to reduce the RAM usage
+        # load every 100 images to labelling to reduce the RAM usage
         for i in range(0, len(images), batch_size):
             print(f"Processing Batch of {i+batch_size} out of {len(images)}")
             labels = labeling(images[i:i+batch_size])
             yolo_format(label_path, labels)
         clean_label(label_path)
         coco_df = yolo_to_coco(label_path, frames_path)
-        coco_df = importer.ImportCoco(os.path.join(label_path,'coco128.json')).df
-        coco_df = clean_coco(coco_df)
-        data= []
+        # coco_df = importer.ImportCoco(os.path.join(label_path,'coco128.json')).df
+        coco_df = clean_coco(coco_df) 
+        data = []
         images = list(set(coco_df['img_path'].values))
         for i in range(0, len(images), batch_size):
             print(f"Processing Batch of {i+batch_size} out of {len(images)}")
             results = gender_detect(images[i:i+batch_size])
             data.extend([gender_data(result,coco_df) for result in tqdm(results,desc='Processing gender data')])
+            # yolo_format(gender_path,results)
+        # clean_label(gender_path)
+        # gender_df = yolo_to_coco(gender_path, frames_path)
+        # gender_df = importer.ImportCoco(os.path.join(label_path,'coco128.json')).df
+        # gender_df = clean_coco(gender_df)
         data = [d for d in data if (0,0) not in d.values()]
         gender_data_export(data ,label_path)
+        # gender_data_export(data ,gender_path)
 
-        
+if __name__ == "__main__":
+    video_paths = ["/mnt/g/Github/video_summarizer/logs/1707472329_SumGANAttTrainer/summe_splits.json_preds.h5",
+                  "/mnt/g/Github/video_summarizer/logs/1706525703_SumGANTrainer/summe_splits.json_preds.h5",
+                  "/mnt/g/Github/video_summarizer/logs/2024-03-19_14-51-35_TransformerTrainer/summe_splits.json_preds.h5",
+                  "/mnt/g/Github/video_summarizer/logs/2024-03-20_08-55-09_VASNetTrainer/summe_splits.json_preds.h5",
+                  "/mnt/g/Github/video_summarizer/logs/1707231795_DSNTrainer/summe_splits.json_preds.h5"]
+                
+            
+    for video in video_paths:
+        annotate(video)
+    # datasets = ["/mnt/g/Github/video_summarizer/datasets/video",
+    #             "/mnt/g/Github/video_summarizer/datasets/videos"]
+    # for dataset in datasets:
+    #     frames_folder = os.path.join(dataset, 'frames')
+    #     videos_folder = os.listdir(frames_folder)
+    #     for video in videos_folder:
+    #         annotate(os.path.join(frames_folder,video))
