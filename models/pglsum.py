@@ -1,12 +1,16 @@
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import math
-import numpy as np
 import os
 import sys
+import random
 import h5py
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.nn.init as init
+import torch.nn.functional as F
+import math
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+print(sys.path)
+from video_summarizer.models import Trainer
 
 
 class SelfAttention(nn.Module):
@@ -32,6 +36,9 @@ class SelfAttention(nn.Module):
 
         self.softmax = nn.Softmax(dim=-1)
         self.drop = nn.Dropout(p=0.5)
+        self.drop = nn.Dropout(p=0.5)
+
+        self.drop = nn.Dropout(p=0.5)        
 
     def getAbsolutePosition(self, T):
         freq = self.freq
@@ -159,9 +166,18 @@ class PGL_SUM(nn.Module):
         self.relu = nn.ReLU()
         self.sigmoid = nn.Sigmoid()
 
-    def forward(self, frame_features):
-        residual = frame_features
-        weighted_value, attn_weights = self.attention(frame_features)
+    def forward(self, x):
+        """
+        Input
+          x: (seq_len, batch_size, input_size)
+        Output
+          y: (seq_len, batch_size, 1)
+        """
+        seq_len, batch_size, input_size = x.shape
+        x = x.permute(1, 0, 2)  # (batch_size, seq_len, input_size)
+
+        residual = x
+        weighted_value, attn_weights = self.attention(x)
         y = weighted_value + residual
         y = self.drop(y)
         y = self.norm_y(y)
@@ -173,16 +189,113 @@ class PGL_SUM(nn.Module):
 
         y = self.linear_2(y)
         y = self.sigmoid(y)
-        y = y.view(1, -1)
+        y = y.permute(1, 0, 2)  # (seq_len, batch_size, 1)
 
-        return y, attn_weights
+        return y
+
+class PGL_SUMTrainer(Trainer):
+    def _init_model(self):
+        model = PGL_SUM(
+            input_size=self.hps.input_size,
+            output_size=self.hps.input_size,
+            freq=int(self.hps.extra_params.get("freq", 10000)),
+            pos_enc=self.hps.extra_params.get("pos_enc"),
+            num_segments=int(self.hps.extra_params["num_segments"]) if "num_segments" in self.hps.extra_params else None,
+            heads=int(self.hps.extra_params.get("heads", 1)),
+            fusion=self.hps.extra_params.get("fusion")
+        )
+
+        cuda_device = self.hps.cuda_device
+        if self.hps.use_cuda:
+            self.log.info(f"Setting CUDA device: {cuda_device}")
+            torch.cuda.set_device(cuda_device)
+        if self.hps.use_cuda:
+            model.cuda()
+        return model
+
+    def train(self, fold):
+        self.model.train()
+        train_keys, _ = self._get_train_test_keys(fold)
+        self.draw_gtscores(fold, train_keys)
+
+        criterion = nn.MSELoss()
+        if self.hps.use_cuda:
+            criterion = criterion.cuda()
+
+        parameters = filter(lambda p: p.requires_grad, self.model.parameters())
+        self.optimizer = torch.optim.Adam(parameters, lr=self.hps.lr, weight_decay=self.hps.weight_decay)
+
+        # To record performances of the best epoch
+        best_corr, best_avg_f_score, best_max_f_score = -1.0, 0.0, 0.0
+
+        # For each epoch
+        for epoch in range(self.hps.epochs):
+            train_avg_loss = []
+            dist_scores = {}
+            random.shuffle(train_keys)
+
+            # For each training video
+            for key in train_keys:
+                dataset = self.dataset[key]
+                seq = dataset["features"][...]
+                seq = torch.from_numpy(seq).unsqueeze(1)  # (seq_len, 1, input_size)
+                target = dataset["gtscore"][...]
+                target = torch.from_numpy(target).view(-1, 1, 1)  # (seq_len, 1, 1)
+
+                # Normalize frame scores
+                target -= target.min()
+                target /= target.max() - target.min()
+
+                if self.hps.use_cuda:
+                    seq, target = seq.cuda(), target.cuda()
+
+                scores = self.model(seq)
+                loss = criterion(scores, target)
+                self.optimizer.zero_grad()
+                loss.backward()
+                self.optimizer.step()
+                train_avg_loss.append(float(loss))
+                dist_scores[key] = scores.detach().cpu().numpy()
+
+            # Average training loss value of epoch
+            train_avg_loss = np.mean(np.array(train_avg_loss))
+            self.log.info(f"Epoch: {f'{epoch+1}/{self.hps.epochs}':6}   "
+                            f"Loss: {train_avg_loss:.05f}")
+            self.hps.writer.add_scalar(f"{self.dataset_name}/Fold_{fold+1}/Train/Loss", train_avg_loss, epoch)
+
+            # Evaluate performances on test keys
+            if epoch % self.hps.test_every_epochs == 0:
+                avg_corr, (avg_f_score, max_f_score) = self.test(fold)
+                self.model.train()
+                self.hps.writer.add_scalar(f"{self.dataset_name}/Fold_{fold+1}/Test/Correlation", avg_corr, epoch)
+                self.hps.writer.add_scalar(f"{self.dataset_name}/Fold_{fold+1}/Test/F-score_avg", avg_f_score, epoch)
+                self.hps.writer.add_scalar(f"{self.dataset_name}/Fold_{fold+1}/Test/F-score_max", max_f_score, epoch)
+                best_avg_f_score = max(best_avg_f_score, avg_f_score)
+                best_max_f_score = max(best_max_f_score, max_f_score)
+                if avg_corr > best_corr:
+                    best_corr = avg_corr
+                    self.best_weights = self.model.state_dict()
+
+        # Log final scores
+        self.draw_scores(fold, dist_scores)
+
+        return best_corr, best_avg_f_score, best_max_f_score
 
 
-if __name__ == '__main__':
-    pass
-    # Uncomment for a quick proof of concept
-    model = PGL_SUM(input_size=256, output_size=256, num_segments=3, fusion="Add").cuda()
-    _input = torch.randn(500, 256).cuda()  # [seq_len, hidden_size]
-    output, weights = model(_input)
-    print(f"Output shape: {output.shape}\tattention shape: {weights.shape}")
+if __name__ == "__main__":
+    model = PGL_SUM()
+    print("Trainable parameters in model:", sum([_.numel() for _ in model.parameters() if _.requires_grad]))
 
+    print()
+    print("Possible flags for PGL_SUM:")
+    print("freq: an integer describing the frequency used in positional encodings. Default=10000")
+    print("pos_enc: \"absolute\" or \"relative\". Type of positional encoding to use. Default=None")
+    print("num_segments: an integer describing the number of segments for local attention. Default=None")
+    print("heads: an integer describing the number of attention heads. Default=1")
+    print("fusion: \"add\", \"mult\", \"avg\", or \"max\". Method to fuse global and local attention. Default=None")
+
+    x = torch.randn(10, 3, 1024)
+    y = model(x)
+    assert x.shape[0] == y.shape[0]
+    assert x.shape[1] == y.shape[1]
+    assert y.shape[2] == 1

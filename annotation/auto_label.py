@@ -8,6 +8,9 @@ import torch
 import whisperx
 import pickle
 import pandas as pd
+import numpy as np
+from dataclasses import dataclass
+# from mivolo import Predictor
 
 VIDEO_EXTENSIONS = [".mp4", ".mkv", ".avi", ".mov", ".wmv", ".flv", ".webm"]
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -24,42 +27,40 @@ def labeling(source):
     return results
 
 def yolo_format(output_dir, results):
-    if not os.path.exists(output_dir):
-        os.mkdir(output_dir)
+    os.makedirs(output_dir, exist_ok=True)
 
-    for i in tqdm(range(len(results)), desc='Saving labels'):
-        path = results[i].path
+    for result in tqdm(results, desc='Saving labels'):
+        path = result.path
         file_name = os.path.basename(path).split('.')[0]
-        results[i].save_txt(f'{output_dir}/{file_name}.txt', save_conf=True)
+        result.save_txt(f'{output_dir}/{file_name}.txt', save_conf=True)
 
-def clean_label(output_dir, threshold = 0.6):
-    for text_file in tqdm(os.listdir(output_dir),desc='Cleaning low accurate labels'):
+def clean_label(output_dir, threshold=0.5):
+    # Iterate over each text file in the output directory
+    for text_file in tqdm([file for file in os.listdir(output_dir) if file.endswith('.txt')], desc='Cleaning low accurate labels'):
         text_file = os.path.join(output_dir, text_file)
-        # print(text_file)
         with open(text_file, 'r') as file:
             lines = [line.strip() for line in file.readlines()]
-            # print(lines)
-            # Filter lines based on the condition
-            filtered_lines = [line for line in lines if float(line.strip().split()[-1]) >= threshold]
-            # print(filtered_lines)
-            # Remove the last element (last value) from each line
-            cleaned_lines = [line.strip().rsplit(' ', 1)[0] for line in filtered_lines]
-            # print(cleaned_lines)
-            # Check if the file is empty after filtering
-        if not cleaned_lines:
-            # File is empty, so delete it
-            os.remove(text_file)
-        else:
-            # raise error if the cleaned lines are more than 5 items
-            cleaned_lines_check = [line.split() for line in cleaned_lines]
-            all_len_5 = all(len(sublist) == 5 for sublist in cleaned_lines_check)
-            if not all_len_5:
-                raise ValueError(f"Too many or too few items in the cleaned lines for {text_file}\n{filtered_lines}\n{cleaned_lines}")
-            # Open the file for writing and save the cleaned lines
-            with open(text_file, 'w') as file:
-                file.write('\n'.join(cleaned_lines))
+            filtered_lines = []
+            # Iterate over each line in the text file
+            for line in lines:
+                line_split = line.strip().split()
+                # Check if the line has more than 5 elements and the confidence score is above the threshold
+                if len(line_split) == 6 and float(line_split[-1]) >= threshold: 
+                    filtered_lines.append(line_split[:-1])
+                elif  len(line_split) == 5: #already filtered 
+                    filtered_lines.append(line_split)
+            # If there are no filtered lines, remove the text file
+            if not filtered_lines :
+                os.remove(text_file)
+            else:
+                if any(len(line) != 5 for line in filtered_lines):
+                    raise ValueError(f"Line contains more or less than 5 items for {text_file}: {filtered_lines}")
+                cleaned_lines = [' '.join(line) for line in filtered_lines]
+                # Write the cleaned lines back to the text file
+                with open(text_file, 'w') as file:
+                    file.write('\n'.join(cleaned_lines))
 
-def yolo_to_coco(yolo_labels, frames_dir):
+def yolo_to_coco(yolo_labels_dir, frames_dir):
     yoloclasses = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light',
         'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow',
         'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee',
@@ -70,11 +71,107 @@ def yolo_to_coco(yolo_labels, frames_dir):
         'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear',
         'hair drier', 'toothbrush']
 
-    dataset = importer.ImportYoloV5(path=yolo_labels, path_to_images=frames_dir, cat_names=yoloclasses, img_ext="jpg", name="coco128")
+    dataset = importer.ImportYoloV5(path=yolo_labels_dir, path_to_images=frames_dir, cat_names=yoloclasses, img_ext="jpg", name="coco128")
 
     dataset.export.ExportToCoco(cat_id_index=1)
     return dataset.df
+@dataclass
+class Cfg:
+    detector_weights: str
+    checkpoint: str
+    device: str = "cuda"  
+    with_persons: bool = True
+    disable_faces: bool = False
+    draw: bool = False
 
+
+def load_model():
+    # Update the paths to the locations where you saved the files
+    detector_path = 'yolov8x_person_face.pt'
+    age_gender_path = 'model_imdb_cross_person_4.22_99.46.pth.tar'
+
+    predictor_cfg = Cfg(detector_path, age_gender_path)
+    predictor = Predictor(predictor_cfg)
+
+    return predictor
+
+def detect_details_batch(images, score_threshold, iou_threshold, mode, predictor):
+    predictor.detector.detector_kwargs['conf'] = score_threshold
+    predictor.detector.detector_kwargs['iou'] = iou_threshold
+
+    if mode == "Use persons and faces":
+        use_persons = True
+        disable_faces = False
+    elif mode == "Use persons only":
+        use_persons = True
+        disable_faces = True
+    elif mode == "Use faces only":
+        use_persons = False
+        disable_faces = False
+
+    predictor.age_gender_model.meta.use_persons = use_persons
+    predictor.age_gender_model.meta.disable_faces = disable_faces
+
+    batch_face_details = []
+    for image in images:
+        image = image[:, :, ::-1]  # RGB -> BGR
+        detected_objects, out_im = predictor.recognize(image)
+        details = []
+        for ind, det in enumerate(detected_objects.yolo_results.boxes):
+            bbox = detected_objects.get_bbox_by_ind(ind).cpu().numpy()
+            confidence = float(det.conf) if det.conf is not None else None
+            age = detected_objects.ages[ind]
+            gender = detected_objects.genders[ind]
+            class_name = detected_objects.yolo_results.names[int(det.cls)]
+
+            details.append({
+                'bbox': bbox,
+                'confidence': confidence,
+                'age': age,
+                'gender': gender,
+                'class': class_name
+            })
+        batch_face_details.append(details)
+
+    return batch_face_details
+
+def detect_details(image: np.ndarray, score_threshold: float, iou_threshold: float, mode: str, predictor: Predictor) -> dict:
+    # input is rgb image, output must be rgb too
+
+    predictor.detector.detector_kwargs['conf'] = score_threshold
+    predictor.detector.detector_kwargs['iou'] = iou_threshold
+
+    if mode == "Use persons and faces":
+        use_persons = True
+        disable_faces = False
+    elif mode == "Use persons only":
+        use_persons = True
+        disable_faces = True
+    elif mode == "Use faces only":
+        use_persons = False
+        disable_faces = False
+
+    predictor.age_gender_model.meta.use_persons = use_persons
+    predictor.age_gender_model.meta.disable_faces = disable_faces
+    image = image[:, :, ::-1]  # RGB -> BGR
+    detected_objects, out_im = predictor.recognize(image)
+    details = []
+    # Iterate over all objects
+    for ind, det in enumerate(detected_objects.yolo_results.boxes):
+        bbox = detected_objects.get_bbox_by_ind(ind).cpu().numpy()
+        confidence = float(det.conf) if det.conf is not None else None
+        age = detected_objects.ages[ind]
+        gender = detected_objects.genders[ind]
+        class_name = detected_objects.yolo_results.names[int(det.cls)]
+        path = detected_objects.yolo_results.paths[int(det.cls)]
+        details.append({
+            'bbox': bbox,
+            'confidence': confidence,
+            'age': age,
+            'gender': gender,
+            'class' : class_name
+        })
+    return details
 def gender_detect(source):
     if not os.path.exists('yolov8x-world_gender.pt'):        
         model = YOLOWorld('yolov8x-world.pt')
@@ -143,49 +240,77 @@ def annotate(videos_path:str):
     # videos = [os.path.join(videos_path, file) for file in os.listdir(videos_path) if file.endswith(tuple(VIDEO_EXTENSIONS))]
     videos = [videos_path]
     batch_size = 100
+    predictor = load_model()
     for video in videos:
+
         label_path = os.path.join(os.path.dirname(video),os.path.basename(video).split('.')[0],'labels')
-        frames_path = os.path.join(os.path.dirname(video),os.path.basename(video).split('.')[0],'frames')
-        gender_path = os.path.join(label_path,'gender_labels')
-        images = [os.path.join(frames_path,img) for img in os.listdir(frames_path) if img.endswith('.jpg')]
-        # load every 100 images to labelling to reduce the RAM usage
-        for i in range(0, len(images), batch_size):
-            print(f"Processing Batch of {i+batch_size} out of {len(images)}")
-            labels = labeling(images[i:i+batch_size])
-            yolo_format(label_path, labels)
-        clean_label(label_path)
-        coco_df = yolo_to_coco(label_path, frames_path)
-        # coco_df = importer.ImportCoco(os.path.join(label_path,'coco128.json')).df
+        # # frames_path = os.path.join(os.path.dirname(video),os.path.basename(video).split('.')[0],'frames')
+        # frames_path = os.path.join(os.path.dirname(video),os.path.basename(video).split('.')[0])
+        # # gender_path = os.path.join(label_path,'gender_labels')
+        # images = [os.path.join(frames_path,img) for img in os.listdir(frames_path) if img.endswith('.jpg')]
+        # # remove the images that already have txt file in the label_path
+        # old_labels = list(os.listdir(label_path))
+        # labels = [os.path.join(frames_path,label.split('.')[0]+'.jpg') for label in old_labels if label.endswith('.txt')]
+        # images = list(set(images).difference(set(labels)))
+        # print(len(images), frames_path)
+        # # load every 100 images to labelling to reduce the RAM usage
+        # for i in range(0, len(images), batch_size):
+        #     print(f"Processing Batch of {i+batch_size} out of {len(images)}")
+        #     labels = labeling(images[i:i+batch_size])
+        #     yolo_format(label_path, labels)
+        # clean_label(label_path)
+        # coco_df = yolo_to_coco(label_path, frames_path)
+        coco_df = importer.ImportCoco(os.path.join(label_path,'coco128.json')).df
         coco_df = clean_coco(coco_df) 
+        # # filtering already existing gender.data, in case of 're-'object detection
+        # if os.path.exists(os.path.join(label_path,'gender.data')):
+        #     with open(os.path.join(label_path, 'gender.data'),'rb') as f:
+        #         data = pickle.load(f)
+        #         # get all the img-id from list of dictionaries
+        #         already_img = [int(list(d.keys())[0]) for d in data]
+        #         print(already_img)
+        #         already_img = [coco_df[coco_df['img_id'] == img_id]['img_path'].values[0] for img_id in already_img if img_id in coco_df['img_id'].values]
+        #         images = list(set(coco_df['img_path'].values).difference(set(already_img)))
+        # else:
         data = []
         images = list(set(coco_df['img_path'].values))
         for i in range(0, len(images), batch_size):
-            print(f"Processing Batch of {i+batch_size} out of {len(images)}")
-            results = gender_detect(images[i:i+batch_size])
+            print(f"Processing Gender Batch of {i+batch_size} out of {len(images)}")
+            # results = gender_detect(images[i:i+batch_size])
+            results = detect_details_batch(images, score_threshold=0.4, iou_threshold=0.7, mode="Use persons", predictor=predictor)
+            print(results)
+            break
             data.extend([gender_data(result,coco_df) for result in tqdm(results,desc='Processing gender data')])
-            # yolo_format(gender_path,results)
+        break
+        #     yolo_format(gender_path,results)
+
         # clean_label(gender_path)
         # gender_df = yolo_to_coco(gender_path, frames_path)
         # gender_df = importer.ImportCoco(os.path.join(label_path,'coco128.json')).df
         # gender_df = clean_coco(gender_df)
+        
         data = [d for d in data if (0,0) not in d.values()]
         gender_data_export(data ,label_path)
+        
         # gender_data_export(data ,gender_path)
 
 if __name__ == "__main__":
-    video_paths = ["/mnt/g/Github/video_summarizer/logs/1707472329_SumGANAttTrainer/summe_splits.json_preds.h5",
-                  "/mnt/g/Github/video_summarizer/logs/1706525703_SumGANTrainer/summe_splits.json_preds.h5",
-                  "/mnt/g/Github/video_summarizer/logs/2024-03-19_14-51-35_TransformerTrainer/summe_splits.json_preds.h5",
-                  "/mnt/g/Github/video_summarizer/logs/2024-03-20_08-55-09_VASNetTrainer/summe_splits.json_preds.h5",
-                  "/mnt/g/Github/video_summarizer/logs/1707231795_DSNTrainer/summe_splits.json_preds.h5"]
+    """
+    USE THE ONE IN REVISE_TOOLS BEACUSE OF DEPENDENCIES ISSUES
+    """
+    # video_paths = ["/mnt/g/Github/video_summarizer/logs/1707472329_SumGANAttTrainer/summe_splits.json_preds.h5",
+    #               "/mnt/g/Github/video_summarizer/logs/1706525703_SumGANTrainer/summe_splits.json_preds.h5",
+    #               "/mnt/g/Github/video_summarizer/logs/2024-03-19_14-51-35_TransformerTrainer/summe_splits.json_preds.h5",
+    #               "/mnt/g/Github/video_summarizer/logs/2024-03-20_08-55-09_VASNetTrainer/summe_splits.json_preds.h5",
+    #               "/mnt/g/Github/video_summarizer/logs/1707231795_DSNTrainer/summe_splits.json_preds.h5"]
                 
             
-    for video in video_paths:
-        annotate(video)
-    # datasets = ["/mnt/g/Github/video_summarizer/datasets/video",
-    #             "/mnt/g/Github/video_summarizer/datasets/videos"]
-    # for dataset in datasets:
-    #     frames_folder = os.path.join(dataset, 'frames')
-    #     videos_folder = os.listdir(frames_folder)
-    #     for video in videos_folder:
-    #         annotate(os.path.join(frames_folder,video))
+    # for video in video_paths:
+    #     annotate(video)
+    datasets = [#"/mnt/g/Github/video_summarizer/datasets/video",
+                "/mnt/g/Github/video_summarizer/datasets/videos"]
+    for dataset in datasets:
+        frames_folder = os.path.join(dataset, 'frames')
+        videos_folder = os.listdir(frames_folder)
+        for video in videos_folder:
+            annotate(os.path.join(frames_folder,video))

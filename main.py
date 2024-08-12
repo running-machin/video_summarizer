@@ -90,6 +90,7 @@ def eval(hps):
     for splits_file in hps.splits_files:
         print('start prediction !!!')
         model = hps.model_class(hps, splits_file)
+        hparam_dict = hps.get_full_hps_dict()
         # have to write a new function load_class that doesnt create a new folder in logs, create the logs. Anf have to see much more
         pred_path ='/mnt/g/Github/video_summarizer/sample_feature/sample_GoogleNet.h5'
         # model.save_best_weights(weights_path)

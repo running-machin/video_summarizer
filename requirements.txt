@@ -12,7 +12,7 @@ ortools
 pandas
 pycocotools
 pycosat
-pytube
+pytube2
 pylabel
 scikit-learn
 scipy

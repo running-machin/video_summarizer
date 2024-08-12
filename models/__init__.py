@@ -74,11 +74,11 @@ class Trainer:
             d = self.dataset[key]
             probs = machine_summary_activations[key]
 
-            if "user_scores" not in d:
-                raise Exception(f"No /user_scores in video {key} for score evaluation, "
+            if "user_scores" not in d and self.dataset_name != "fvs":
+                raise Exception(f"No /user_scores in video {key} for score evaluation in {self.dataset_name}, "
                                 "make sure you have up-to-date .h5 dataset files.")
 
-            user_scores = d["user_scores"][...]
+            user_scores = d["user_scores"][...] if self.dataset_name != "fvs" else d["gtscore"][...]
             n_frames = d["n_frames"][()]
             positions = d["picks"][...]
 

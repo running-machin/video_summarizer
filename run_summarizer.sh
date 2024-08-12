@@ -40,6 +40,7 @@ cd ..
 
 python create_split.py -d ./datasets/summarizer_dataset_summe_google_pool5.h5 --save-dir splits --save-name summe_splits --num-splits 5
 python create_split.py -d datasets/summarizer_dataset_tvsum_google_pool5.h5 --save-dir splits --save-name tvsum_splits --num-splits 5
+python create_split.py -d datasets/fvs.h5 --save-dir splits --save-name fvs_splits --num-splits 1
 # running the training on the GPU( the -c yes is for using the GPU and -i for setting device id)
 # python main.py --model sumgan -c yes -i 0
 python main.py --model sumgan_att -c yes -i 0 -s tvsum

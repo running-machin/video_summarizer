@@ -31,7 +31,8 @@ class HParameters:
         # dataset
         self.datasets = [
            'datasets/summarizer_dataset_summe_google_pool5.h5',
-           'datasets/summarizer_dataset_tvsum_google_pool5.h5'
+           'datasets/summarizer_dataset_tvsum_google_pool5.h5',
+           'datasets/fvs.h5'
         ]
 
         # default split files to be trained/tested on
@@ -130,11 +131,14 @@ class HParameters:
         if self.splits_files == 'all':
             self.splits_files = [
                 'splits/tvsum_splits.json',
-                'splits/summe_splits.json']
+                'splits/summe_splits.json',
+                'splits/fvs_splits.json']
         elif self.splits_files == 'tvsum':
             self.splits_files = ['splits/tvsum_splits.json']
         elif self.splits_files == 'summe':
             self.splits_files = ['splits/summe_splits.json']
+        if self.splits_files == 'fvs':
+            self.splits_files = ['splits/fvs_splits.json'] 
         elif self.splits_files == 'dataset':
             self.splits_files = ['splits/dataset_splits.json']
 
@@ -148,7 +152,6 @@ class HParameters:
             # print("dataset_name", dataset_name)
             # print("splits", splits)
             self.dataset_name_of_file[splits_file] = dataset_name
-            # print(self.get_dataset_by_name(dataset_name))
             self.dataset_of_file[splits_file] = self.get_dataset_by_name(dataset_name).pop()
             # self.dataset_list = self.get_dataset_by_name(dataset_name)
             # if dataset_name is list:

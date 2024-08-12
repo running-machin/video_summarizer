@@ -151,9 +151,9 @@ class TransformerTrainer(Trainer):
             for key in train_keys:
                 dataset = self.dataset[key]
                 seq = dataset["features"][...]
-                seq = torch.from_numpy(seq).unsqueeze(1) # (seq_len, 1, input_size)
+                seq = torch.from_numpy(seq).unsqueeze(1).float() # (seq_len, 1, input_size)
                 target = dataset["gtscore"][...]
-                target = torch.from_numpy(target).view(-1, 1, 1) # (seq_len, 1, 1)
+                target = torch.from_numpy(target).view(-1, 1, 1).float() # (seq_len, 1, 1)
 
                 # Normalize frame scores
                 target -= target.min()
